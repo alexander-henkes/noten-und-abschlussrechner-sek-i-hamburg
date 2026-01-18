@@ -167,19 +167,15 @@ body {
     right: 0;
     bottom: 0;
     width: 100%;
-    height: 56vh;
+    height: auto;
     pointer-events: none;
     z-index: 0;
     opacity: 0.15;
-    overflow: hidden;
 }
 
 .silhouette img {
-    position: absolute;
-    bottom: 0;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     display: block;
     filter: invert(1) brightness(2);
 }

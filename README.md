@@ -23,7 +23,7 @@ lokal im Browser (Client-Side) und überträgt keine Daten an externe Server.
 [![Release Date](https://img.shields.io/github/release-date/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg)](https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg/releases)
 [![Code Size](https://img.shields.io/github/languages/code-size/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg)](https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg)
 [![Issues](https://img.shields.io/github/issues-raw/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg)](https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg/issues/)
-[![License](https://img.shields.io/github/license/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg)](https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 
 </div>
 

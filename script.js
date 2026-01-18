@@ -34,7 +34,6 @@ const GRADE_ORDER = ['E1', 'E2', 'E3', 'E4', 'G2', 'G3', 'G4', 'G5', 'G6'];
 
 const TRANSLATIONS = {
     de: {
-        'app.title': 'Noten- & Abschlussrechner',
         'app.titleHtml': '<span class="title-break">Noten- & </span>Abschlussrechner',
         'app.subtitle': 'Sekundarstufe I (Hamburg) – ESA | MSA | Gymnasiale Oberstufe',
         'section.calculator': 'Durchschnittsrechner',
@@ -46,7 +45,7 @@ const TRANSLATIONS = {
         'select.msa': 'MSA (Mittlerer Schulabschluss)',
         'select.sek2': 'SEK II (Versetzung in die Gymnasiale Oberstufe)',
         'table.subjects': 'Fächer',
-        'table.grades': 'Noten',
+        'table.grades': 'Noten *',
         'addSubject.placeholder': 'Weiteres Fach hinzufügen ...',
         'average.label': 'Notendurchschnitt:',
         'importExport.save': 'Noteneingabe speichern',
@@ -55,17 +54,20 @@ const TRANSLATIONS = {
         'legend.yellow': 'Das Fach gefährdet den Abschluss, ist aber <u>ausgleichbar</u>.',
         'legend.red': 'Das Fach ist <u>nicht</u> ausgleichbar, der gewählte Abschluss somit <u>ausgeschlossen</u>.',
         'info.esa.heading': 'ESA (Erster allgemeinbildender Schulabschluss):',
-        'info.esa.requirement': '<strong>Voraussetzung:</strong> Mindestens G4 in allen Fächern.',
-        'info.esa.compensation': '<strong>Ausgleich:</strong> G5 kann durch G3 ausgeglichen werden, G6 durch G2 oder 2 × G3.',
+        'info.esa.reference': 'APO-GrundStGy Hamburg §29',
+        'info.esa.requirement': '<strong>Voraussetzung:</strong> Durchschnitt G4 oder besser.',
+        'info.esa.compensation': '<strong>Ausgleich:</strong> Schlechtere Noten sind durch den glatten Gesamtdurchschnitt (G4) ausgleichbar.',
         'info.esa.exclusion': '<strong>Ausschluss:</strong> G5 in D <u>und</u> M, G6 in D/M/E, 2 × G6, 3 × G5.',
         'info.msa.heading': 'MSA (Mittlerer Schulabschluss):',
+        'info.msa.reference': 'APO-GrundStGy Hamburg §30',
         'info.msa.requirement': '<strong>Voraussetzung:</strong> Mindestens G2 in allen Fächern.',
-        'info.msa.compensation': '<strong>Ausgleich:</strong> G3 kann durch E3 oder 2 × E4 ausgeglichen werden. G4 oder schlechter (in Nebenfächern) kann durch E2 oder 2 × E3 ausgeglichen werden.',
-        'info.msa.exclusion': '<strong>Ausschluss:</strong> 2 × G3 in D/M/E, G4 in D/M/E, G3 und G4 zusammen, 3 × G3.',
+        'info.msa.compensation': '<strong>Ausgleich:</strong> G3 durch E3 oder besser, oder 2 × E4 oder besser; G4 oder schlechter durch E1 oder 2 × E2.',
+        'info.msa.exclusion': '<strong>Ausschluss:</strong> G3 oder schlechter in zwei Hauptfächern, G4 oder schlechter in D/M/E, G3 oder schlechter und G4 oder schlechter in zwei Fächern, mehr als zwei Fächer mit G3 oder schlechter.',
         'info.sek2.heading': 'SEK II (Versetzung in die Gymnasiale Oberstufe):',
+        'info.sek2.reference': 'APO-GrundStGy Hamburg §31',
         'info.sek2.requirement': '<strong>Voraussetzung:</strong> Mindestens E4 in allen Fächern.',
-        'info.sek2.compensation': '<strong>Ausgleich:</strong> G2 kann durch E2 oder 2 × E3 ausgeglichen werden. G3 oder schlechter (in Nebenfächern) kann durch E1 oder 2 × E2 ausgeglichen werden.',
-        'info.sek2.exclusion': '<strong>Ausschluss:</strong> 2 × G2 in D/M/E, G3 in D/M/E, G2 und G3 zusammen, 3 × G2.',
+        'info.sek2.compensation': '<strong>Ausgleich:</strong> G2 durch E2 oder besser, oder 2 × E3 oder besser; G3 oder schlechter durch E1 oder 2 × E2.',
+        'info.sek2.exclusion': '<strong>Ausschluss:</strong> G2 oder schlechter in zwei Hauptfächern, G3 oder schlechter in einem Hauptfach, G2 oder schlechter und G3 oder schlechter in zwei Fächern, mehr als zwei Fächer mit G2 oder schlechter.',
         'info.mainSubjects': '<strong>Hauptfächer:</strong> Die Hauptfächer Deutsch, Mathematik und Englisch haben besondere Bedeutung.<br><strong class="text-danger">Hier gelten strengere Ausschlussregeln!</strong>',
         'info.noEvaluation': '<strong>Keine Bewertung:</strong> Dieser Umstand könnte eintreten, wenn ein Schüler aufgrund von Absentismus nicht bewertet werden kann. <strong class="text-danger">Eine fehlende Note/Bewertung auf dem Zeugnis schließt einen Abschluss aus!</strong>',
         'footer.basedOnPrefix': 'Basierend auf der',
@@ -99,10 +101,13 @@ const TRANSLATIONS = {
         'result.compensatedSubjectsLabel': 'Folgende Fächer werden ausgeglichen:',
         'result.compensationPossibleBy': 'Ausgleich möglich durch:',
         'result.needs': 'benötigt',
-        'result.otherDegrees.sek2': 'Ihr Notenbild ermöglicht ebenfalls die zukünftige <strong>Versetzung in die Sekundarstufe II (Gymnasiale Oberstufe)</strong>.',
-        'result.otherDegrees.msa': 'Ihr Notenbild ermöglicht zukünftig ebenfalls den <strong>Mittleren Schulabschluss (MSA)</strong>.',
+        'result.compensatedBy': 'wird ausgeglichen durch',
+        'result.needsCompensation': 'braucht einen Ausgleich.',
+        'result.exclusionSentencePrefix': 'Der folgende Umstand schließt den Abschluss aus:',
+        'result.otherDegrees.sek2': 'Ihr Notenbild ermöglicht künftig auch die <strong>Versetzung in die Sekundarstufe II (Gymnasiale Oberstufe)</strong>.',
+        'result.otherDegrees.msa': 'Ihr Notenbild ermöglicht künftig auch den <strong>Mittleren Schulabschluss (MSA)</strong>.',
         'actions.print': 'Druckansicht',
-        'print.title': 'Druckansicht',
+        'print.note': '* Alle Noteneingaben sind (sofern notwendig) mit verrechneten Abschlussprüfungen vorzunehmen.',
         'print.grades': 'Notenübersicht',
         'print.subject': 'Fach',
         'print.grade': 'Note',
@@ -115,35 +120,21 @@ const TRANSLATIONS = {
         'exclusion.esa.g6Mathe': 'G6 in Mathematik (Hauptfach)',
         'exclusion.esa.g6Englisch': 'G6 in Englisch (Hauptfach)',
         'exclusion.esa.g6Count': 'Zwei oder mehr Fächer mit G6',
-        'exclusion.esa.g5Count': 'Drei oder mehr Fächer mit G5',
-        'exclusion.msa.mainG3Count': 'Zwei Hauptfächer (D/M/E) mit G3',
-        'exclusion.msa.g4Deutsch': 'G4 oder schlechter in Deutsch (Hauptfach)',
-        'exclusion.msa.g4Mathe': 'G4 oder schlechter in Mathematik (Hauptfach)',
-        'exclusion.msa.g4Englisch': 'G4 oder schlechter in Englisch (Hauptfach)',
-        'exclusion.msa.g3AndG4': 'Kombination aus G3 und G4 oder schlechter',
-        'exclusion.msa.g3Count': 'Drei oder mehr Fächer mit G3',
-        'exclusion.sek2.mainG2Count': 'Zwei Hauptfächer (D/M/E) mit G2',
-        'exclusion.sek2.g3Deutsch': 'G3 oder schlechter in Deutsch (Hauptfach)',
-        'exclusion.sek2.g3Mathe': 'G3 oder schlechter in Mathematik (Hauptfach)',
-        'exclusion.sek2.g3Englisch': 'G3 oder schlechter in Englisch (Hauptfach)',
-        'exclusion.sek2.g2AndG3': 'Kombination aus G2 und G3 oder schlechter',
-        'exclusion.sek2.g2Count': 'Drei oder mehr Fächer mit G2',
-        'compensation.esa.G5': 'eine G3 oder besser',
-        'compensation.esa.G6': 'eine G2 oder besser, oder 2 × G3',
-        'compensation.msa.G3': 'eine E3 oder 2 × E4',
-        'compensation.msa.G4': 'eine E2 oder 2 × E3',
-        'compensation.msa.G5': 'eine E2 oder 2 × E3',
-        'compensation.msa.G6': 'eine E2 oder 2 × E3',
-        'compensation.sek2.G2': 'eine E2 oder 2 × E3',
-        'compensation.sek2.G3': 'eine E1 oder 2 × E2',
-        'compensation.sek2.G4': 'eine E1 oder 2 × E2',
-        'compensation.sek2.G5': 'eine E1 oder 2 × E2',
-        'compensation.sek2.G6': 'eine E1 oder 2 × E2',
+        'exclusion.esa.g5OrWorseCount': 'Mehr als zwei Fächer mit G5 oder schlechter',
+        'exclusion.msa.mainG5Count': 'Zwei Hauptfächer (D/M/E) mit G3 oder schlechter',
+        'exclusion.msa.g6Deutsch': 'G4 oder schlechter in Deutsch (Hauptfach)',
+        'exclusion.msa.g6Mathe': 'G4 oder schlechter in Mathematik (Hauptfach)',
+        'exclusion.msa.g6Englisch': 'G4 oder schlechter in Englisch (Hauptfach)',
+        'exclusion.msa.g5AndG6': 'Kombination aus G3 oder schlechter und G4 oder schlechter',
+        'exclusion.msa.g5Count': 'Mehr als zwei Fächer mit G3 oder schlechter',
+        'exclusion.sek2.mainG2Count': 'Zwei Hauptfächer (D/M/E) mit G2 oder schlechter',
+        'exclusion.sek2.mainG3Count': 'G3 oder schlechter in einem Hauptfach',
+        'exclusion.sek2.g2AndG3': 'Kombination aus G2 oder schlechter und G3 oder schlechter in 2 Fächern',
+        'exclusion.sek2.g2Count': 'Mehr als zwei Fächer mit G2 oder schlechter',
         'import.invalidJson': 'Die Importdatei ist ungültig.',
         'import.invalidSubjects': 'Die Importdatei enthält keine gültigen Fächer.'
     },
     en: {
-        'app.title': 'Grade & Qualification Calculator',
         'app.titleHtml': '<span class="title-break">Grade & </span>Qualification Calculator',
         'app.subtitle': 'Secondary Level I (Hamburg) – ESA | MSA | Upper Secondary',
         'section.calculator': 'Average Grade Calculator',
@@ -155,7 +146,7 @@ const TRANSLATIONS = {
         'select.msa': 'MSA (Intermediate School Certificate)',
         'select.sek2': 'Upper Secondary (transfer to upper secondary level)',
         'table.subjects': 'Subjects',
-        'table.grades': 'Grades',
+        'table.grades': 'Grades *',
         'addSubject.placeholder': 'Add another subject ...',
         'average.label': 'Average grade:',
         'importExport.save': 'Save grade input',
@@ -164,17 +155,20 @@ const TRANSLATIONS = {
         'legend.yellow': 'This subject endangers the qualification but is <u>compensable</u>.',
         'legend.red': 'This subject is <u>not</u> compensable; the selected qualification is <u>excluded</u>.',
         'info.esa.heading': 'ESA (First General School Certificate):',
-        'info.esa.requirement': '<strong>Requirement:</strong> At least G4 in all subjects.',
-        'info.esa.compensation': '<strong>Compensation:</strong> G5 can be compensated by G3; G6 by G2 or 2 × G3.',
+        'info.esa.reference': 'APO-GrundStGy Hamburg §29',
+        'info.esa.requirement': '<strong>Requirement:</strong> Average of G4 or better.',
+        'info.esa.compensation': '<strong>Compensation:</strong> Lower grades can be offset by the straight overall average (G4).',
         'info.esa.exclusion': '<strong>Exclusion:</strong> G5 in German <u>and</u> Mathematics, G6 in German/Math/English, 2 × G6, 3 × G5.',
         'info.msa.heading': 'MSA (Intermediate School Certificate):',
+        'info.msa.reference': 'APO-GrundStGy Hamburg §30',
         'info.msa.requirement': '<strong>Requirement:</strong> At least G2 in all subjects.',
-        'info.msa.compensation': '<strong>Compensation:</strong> G3 can be compensated by E3 or 2 × E4. G4 or worse (in minor subjects) can be compensated by E2 or 2 × E3.',
-        'info.msa.exclusion': '<strong>Exclusion:</strong> 2 × G3 in German/Math/English, G4 in German/Math/English, G3 and G4 combined, 3 × G3.',
+        'info.msa.compensation': '<strong>Compensation:</strong> G3 by E3 or better, or 2 × E4 or better; G4 or worse by E1 or 2 × E2.',
+        'info.msa.exclusion': '<strong>Exclusion:</strong> G3 or worse in two main subjects, G4 or worse in German/Math/English, G3 or worse and G4 or worse in two subjects, more than two subjects with G3 or worse.',
         'info.sek2.heading': 'Upper Secondary (transfer to upper secondary level):',
+        'info.sek2.reference': 'APO-GrundStGy Hamburg §31',
         'info.sek2.requirement': '<strong>Requirement:</strong> At least E4 in all subjects.',
-        'info.sek2.compensation': '<strong>Compensation:</strong> G2 can be compensated by E2 or 2 × E3. G3 or worse (in minor subjects) can be compensated by E1 or 2 × E2.',
-        'info.sek2.exclusion': '<strong>Exclusion:</strong> 2 × G2 in German/Math/English, G3 in German/Math/English, G2 and G3 combined, 3 × G2.',
+        'info.sek2.compensation': '<strong>Compensation:</strong> G2 by E2 or better, or 2 × E3 or better; G3 or worse by E1 or 2 × E2.',
+        'info.sek2.exclusion': '<strong>Exclusion:</strong> G2 or worse in two main subjects, G3 or worse in one main subject, G2 or worse and G3 or worse in two subjects, more than two subjects with G2 or worse.',
         'info.mainSubjects': '<strong>Main subjects:</strong> German, Mathematics, and English are of special importance.<br><strong class="text-danger">Stricter exclusion rules apply here!</strong>',
         'info.noEvaluation': '<strong>No assessment:</strong> This can occur if a student cannot be assessed due to absenteeism. <strong class="text-danger">A missing grade on the report card excludes a qualification!</strong>',
         'footer.basedOnPrefix': 'Based on the',
@@ -208,10 +202,13 @@ const TRANSLATIONS = {
         'result.compensatedSubjectsLabel': 'The following subjects are compensated:',
         'result.compensationPossibleBy': 'Compensation possible through:',
         'result.needs': 'requires',
-        'result.otherDegrees.sek2': 'Your grade profile also allows a future <strong>transfer to upper secondary level</strong>.',
-        'result.otherDegrees.msa': 'Your grade profile will also allow the <strong>intermediate school certificate (MSA)</strong>.',
+        'result.compensatedBy': 'is compensated by',
+        'result.needsCompensation': 'needs compensation.',
+        'result.exclusionSentencePrefix': 'The following condition excludes the qualification:',
+        'result.otherDegrees.sek2': 'Your grade profile also qualifies you for a future <strong>transfer to upper secondary level</strong>.',
+        'result.otherDegrees.msa': 'Your grade profile also qualifies you for the <strong>intermediate school certificate (MSA)</strong>.',
         'actions.print': 'Print view',
-        'print.title': 'Print view',
+        'print.note': '* All grade entries should include exam results where applicable.',
         'print.grades': 'Grade overview',
         'print.subject': 'Subject',
         'print.grade': 'Grade',
@@ -224,30 +221,17 @@ const TRANSLATIONS = {
         'exclusion.esa.g6Mathe': 'G6 in Mathematics (main subject)',
         'exclusion.esa.g6Englisch': 'G6 in English (main subject)',
         'exclusion.esa.g6Count': 'Two or more subjects with G6',
-        'exclusion.esa.g5Count': 'Three or more subjects with G5',
-        'exclusion.msa.mainG3Count': 'Two main subjects (German/Math/English) with G3',
-        'exclusion.msa.g4Deutsch': 'G4 or worse in German (main subject)',
-        'exclusion.msa.g4Mathe': 'G4 or worse in Mathematics (main subject)',
-        'exclusion.msa.g4Englisch': 'G4 or worse in English (main subject)',
-        'exclusion.msa.g3AndG4': 'Combination of G3 and G4 or worse',
-        'exclusion.msa.g3Count': 'Three or more subjects with G3',
-        'exclusion.sek2.mainG2Count': 'Two main subjects (German/Math/English) with G2',
-        'exclusion.sek2.g3Deutsch': 'G3 or worse in German (main subject)',
-        'exclusion.sek2.g3Mathe': 'G3 or worse in Mathematics (main subject)',
-        'exclusion.sek2.g3Englisch': 'G3 or worse in English (main subject)',
-        'exclusion.sek2.g2AndG3': 'Combination of G2 and G3 or worse',
-        'exclusion.sek2.g2Count': 'Three or more subjects with G2',
-        'compensation.esa.G5': 'one G3 or better',
-        'compensation.esa.G6': 'one G2 or better, or 2 × G3',
-        'compensation.msa.G3': 'one E3 or 2 × E4',
-        'compensation.msa.G4': 'one E2 or 2 × E3',
-        'compensation.msa.G5': 'one E2 or 2 × E3',
-        'compensation.msa.G6': 'one E2 or 2 × E3',
-        'compensation.sek2.G2': 'one E2 or 2 × E3',
-        'compensation.sek2.G3': 'one E1 or 2 × E2',
-        'compensation.sek2.G4': 'one E1 or 2 × E2',
-        'compensation.sek2.G5': 'one E1 or 2 × E2',
-        'compensation.sek2.G6': 'one E1 or 2 × E2',
+        'exclusion.esa.g5OrWorseCount': 'More than two subjects with G5 or worse',
+        'exclusion.msa.mainG5Count': 'Two main subjects (German/Math/English) with G3 or worse',
+        'exclusion.msa.g6Deutsch': 'G4 or worse in German (main subject)',
+        'exclusion.msa.g6Mathe': 'G4 or worse in Mathematics (main subject)',
+        'exclusion.msa.g6Englisch': 'G4 or worse in English (main subject)',
+        'exclusion.msa.g5AndG6': 'Combination of G3 or worse and G4 or worse',
+        'exclusion.msa.g5Count': 'More than two subjects with G3 or worse',
+        'exclusion.sek2.mainG2Count': 'Two main subjects (German/Math/English) with G2 or worse',
+        'exclusion.sek2.mainG3Count': 'G3 or worse in one main subject',
+        'exclusion.sek2.g2AndG3': 'Combination of G2 or worse and G3 or worse in 2 subjects',
+        'exclusion.sek2.g2Count': 'More than two subjects with G2 or worse',
         'import.invalidJson': 'The import file is invalid.',
         'import.invalidSubjects': 'The import file contains no valid subjects.'
     }
@@ -297,117 +281,68 @@ function isGradeWorse(gradeA, gradeB) {
     return GRADE_ORDER.indexOf(gradeA) > GRADE_ORDER.indexOf(gradeB);
 }
 
+function toEsaNumericGrade(grade) {
+    if (!grade) return null;
+    if (grade.startsWith('E')) return 1;
+    const map = { G2: 2, G3: 3, G4: 4, G5: 5, G6: 6 };
+    return map[grade] ?? null;
+}
+
+function toMsaNumericGrade(grade) {
+    if (!grade) return null;
+    const map = {
+        E1: 1, E2: 1,
+        E3: 2,
+        E4: 3,
+        G2: 4,
+        G3: 5,
+        G4: 6, G5: 6, G6: 6
+    };
+    return map[grade] ?? null;
+}
+
+function toSek2NumericGrade(grade) {
+    if (!grade) return null;
+    const map = {
+        E1: 1,
+        E2: 2,
+        E3: 3,
+        E4: 4,
+        G2: 5,
+        G3: 6, G4: 6, G5: 6, G6: 6
+    };
+    return map[grade] ?? null;
+}
+
+function getNumericGradeForDegree(targetDegree, grade) {
+    if (targetDegree === 'esa') return toEsaNumericGrade(grade);
+    if (targetDegree === 'msa') return toMsaNumericGrade(grade);
+    if (targetDegree === 'sek2') return toSek2NumericGrade(grade);
+    return null;
+}
+
+function formatSubjectGrade(subject) {
+    const label = GRADE_OPTIONS.find(o => o.value === subject.grade)?.label || subject.grade;
+    return `${subject.name} (${label})`;
+}
+
 
 
 const DEGREE_CONFIG = {
     esa: {
         name: 'ESA',
         fullNameKey: 'degree.esa.full',
-        directSuccessNoteKey: 'result.directSuccess.esa',
-        
-        passGrade: 'G4',
-        
-        compensatableGrades: ['G5', 'G6'],
-        
-        compensatingGrades: ['E1', 'E2', 'E3', 'E4', 'G2', 'G3'],
-        
-        compensationRules: {
-            
-            'G5': { single: ['E1', 'E2', 'E3', 'E4', 'G2', 'G3'], double: [] },
-            
-            'G6': { single: ['E1', 'E2', 'E3', 'E4', 'G2'], double: ['G3'] }
-        },
-        compensationLabelKeys: {
-            'G5': 'compensation.esa.G5',
-            'G6': 'compensation.esa.G6'
-        },
-        
-        exclusionRules: {
-            
-            mainSubjectG5Both: true,
-            
-            mainSubjectG6: true,
-            
-            maxG6: 1,
-            
-            maxG5: 2
-        }
+        directSuccessNoteKey: 'result.directSuccess.esa'
     },
     msa: {
         name: 'MSA',
         fullNameKey: 'degree.msa.full',
-        directSuccessNoteKey: 'result.directSuccess.msa',
-        
-        passGrade: 'G2',
-        
-        compensatableGrades: ['G3', 'G4', 'G5', 'G6'],
-        
-        compensatingGrades: ['E1', 'E2', 'E3', 'E4'],
-        
-        compensationRules: {
-            
-            'G3': { single: ['E1', 'E2', 'E3'], double: ['E4'] },
-            
-            'G4': { single: ['E1', 'E2'], double: ['E3'] },
-            'G5': { single: ['E1', 'E2'], double: ['E3'] },
-            'G6': { single: ['E1', 'E2'], double: ['E3'] }
-        },
-        compensationLabelKeys: {
-            'G3': 'compensation.msa.G3',
-            'G4': 'compensation.msa.G4',
-            'G5': 'compensation.msa.G5',
-            'G6': 'compensation.msa.G6'
-        },
-        
-        exclusionRules: {
-            
-            mainSubjectG3Count: 2,
-            
-            mainSubjectG4OrWorse: true,
-            
-            g3AndG4Together: true,
-            
-            maxG3: 2
-        }
+        directSuccessNoteKey: 'result.directSuccess.msa'
     },
     sek2: {
         name: 'SEK II',
         fullNameKey: 'degree.sek2.full',
-        directSuccessNoteKey: 'result.directSuccess.sek2',
-        
-        passGrade: 'E4',
-        
-        compensatableGrades: ['G2', 'G3', 'G4', 'G5', 'G6'],
-        
-        compensatingGrades: ['E1', 'E2', 'E3'],
-        
-        compensationRules: {
-            
-            'G2': { single: ['E1', 'E2'], double: ['E3'] },
-            
-            'G3': { single: ['E1'], double: ['E2'] },
-            'G4': { single: ['E1'], double: ['E2'] },
-            'G5': { single: ['E1'], double: ['E2'] },
-            'G6': { single: ['E1'], double: ['E2'] }
-        },
-        compensationLabelKeys: {
-            'G2': 'compensation.sek2.G2',
-            'G3': 'compensation.sek2.G3',
-            'G4': 'compensation.sek2.G4',
-            'G5': 'compensation.sek2.G5',
-            'G6': 'compensation.sek2.G6'
-        },
-        
-        exclusionRules: {
-            
-            mainSubjectG2Count: 2,
-            
-            mainSubjectG3OrWorse: true,
-            
-            g2AndG3Together: true,
-            
-            maxG2: 2
-        }
+        directSuccessNoteKey: 'result.directSuccess.sek2'
     }
 };
 
@@ -521,7 +456,7 @@ function positionLanguageHint() {
 function buildPrognosisHtml(result, otherDegrees) {
     let html = '';
     const icon = result.achieved ? '✓' : '✗';
-    html = `<h3>${icon} ${result.message}</h3>`;
+    html = `<h3><span class="prognosis-icon">${icon}</span><span class="prognosis-text">${result.message}</span></h3>`;
 
     if (result.status === 'success' && result.directSuccessNote) {
         html += `<p class="direct-success-note">${result.directSuccessNote}</p>`;
@@ -534,15 +469,19 @@ function buildPrognosisHtml(result, otherDegrees) {
     if (result.exclusionReasons?.length > 0) {
         html += `<p><strong>${t('result.exclusionReasonsLabel')}</strong></p><ul>`;
         result.exclusionReasons.forEach(reason => {
-            html += `<li>${reason}</li>`;
+            html += `<li>${t('result.exclusionSentencePrefix')} ${reason}.</li>`;
         });
         html += '</ul>';
     }
 
-    if (result.compensatableProblems?.length > 0 && result.achieved) {
+    if (result.compensatableProblems?.length > 0) {
         html += `<p><strong>${t('result.compensatedSubjectsLabel')}</strong></p><ul>`;
         result.compensatableProblems.forEach(p => {
-            html += `<li>${p.subject} (${t('result.needs')} ${p.needs})</li>`;
+            if (p.compensated) {
+                html += `<li>${p.subject} ${t('result.compensatedBy')} ${p.by.join(', ')}.</li>`;
+            } else {
+                html += `<li>${p.subject} ${t('result.needsCompensation')}</li>`;
+            }
         });
         html += '</ul>';
     }
@@ -910,10 +849,14 @@ function checkDegreeRequirements(targetDegree) {
     const mainGrades = [deutschSubject.grade, matheSubject.grade, englischSubject.grade];
 
     
-    const passed = allWithGrades.filter(s => isGradeBetterOrEqual(s.grade, config.passGrade));
-    const needsCompensation = allWithGrades.filter(s =>
-        isGradeWorse(s.grade, config.passGrade) && config.compensatableGrades.includes(s.grade)
-    );
+    let passed = [];
+    let needsCompensation = [];
+    if (config?.passGrade && config?.compensatableGrades) {
+        passed = allWithGrades.filter(s => isGradeBetterOrEqual(s.grade, config.passGrade));
+        needsCompensation = allWithGrades.filter(s =>
+            isGradeWorse(s.grade, config.passGrade) && config.compensatableGrades.includes(s.grade)
+        );
+    }
 
     
 
@@ -937,63 +880,59 @@ function checkDegreeRequirements(targetDegree) {
             result.exclusionReasons.push(t('exclusion.esa.g6Count'));
         }
         
-        if (countGrade(allGrades, 'G5') >= 3) {
-            result.exclusionReasons.push(t('exclusion.esa.g5Count'));
+        if (countGradesInList(allGrades, ['G5', 'G6']) > 2) {
+            result.exclusionReasons.push(t('exclusion.esa.g5OrWorseCount'));
         }
     }
 
     if (targetDegree === 'msa') {
-        
-        if (countGrade(mainGrades, 'G3') >= 2) {
-            result.exclusionReasons.push(t('exclusion.msa.mainG3Count'));
+        const numericMain = mainGrades.map(toMsaNumericGrade);
+        const numericAll = allGrades.map(toMsaNumericGrade);
+
+        const mainG5OrWorse = numericMain.filter(g => g >= 5).length;
+        const mainG6 = numericMain.filter(g => g === 6).length;
+        const g5OrWorse = numericAll.filter(g => g >= 5).length;
+        const g6 = numericAll.filter(g => g === 6).length;
+
+        if (mainG5OrWorse >= 2) {
+            result.exclusionReasons.push(t('exclusion.msa.mainG5Count'));
         }
-        
-        const g4OrWorse = ['G4', 'G5', 'G6'];
-        if (g4OrWorse.includes(deutschSubject.grade)) {
-            result.exclusionReasons.push(t('exclusion.msa.g4Deutsch'));
+        if (deutschSubject.grade && toMsaNumericGrade(deutschSubject.grade) === 6) {
+            result.exclusionReasons.push(t('exclusion.msa.g6Deutsch'));
         }
-        if (g4OrWorse.includes(matheSubject.grade)) {
-            result.exclusionReasons.push(t('exclusion.msa.g4Mathe'));
+        if (matheSubject.grade && toMsaNumericGrade(matheSubject.grade) === 6) {
+            result.exclusionReasons.push(t('exclusion.msa.g6Mathe'));
         }
-        if (g4OrWorse.includes(englischSubject.grade)) {
-            result.exclusionReasons.push(t('exclusion.msa.g4Englisch'));
+        if (englischSubject.grade && toMsaNumericGrade(englischSubject.grade) === 6) {
+            result.exclusionReasons.push(t('exclusion.msa.g6Englisch'));
         }
-        
-        const hasG3 = countGrade(allGrades, 'G3') > 0;
-        const hasG4OrWorse = countGradesInList(allGrades, ['G4', 'G5', 'G6']) > 0;
-        if (hasG3 && hasG4OrWorse) {
-            result.exclusionReasons.push(t('exclusion.msa.g3AndG4'));
+        if (g6 >= 1 && g5OrWorse >= 2) {
+            result.exclusionReasons.push(t('exclusion.msa.g5AndG6'));
         }
-        
-        if (countGrade(allGrades, 'G3') >= 3) {
-            result.exclusionReasons.push(t('exclusion.msa.g3Count'));
+        if (g5OrWorse > 2) {
+            result.exclusionReasons.push(t('exclusion.msa.g5Count'));
         }
     }
 
     if (targetDegree === 'sek2') {
-        
-        if (countGrade(mainGrades, 'G2') >= 2) {
+        const numericMain = mainGrades.map(toSek2NumericGrade);
+        const numericAll = allGrades.map(toSek2NumericGrade);
+
+        const mainG2OrWorse = numericMain.filter(g => g >= 5).length;
+        const mainG3OrWorse = numericMain.filter(g => g >= 6).length;
+        const g2OrWorse = numericAll.filter(g => g >= 5).length;
+        const g3OrWorse = numericAll.filter(g => g >= 6).length;
+
+        if (mainG2OrWorse >= 2) {
             result.exclusionReasons.push(t('exclusion.sek2.mainG2Count'));
         }
-        
-        const g3OrWorse = ['G3', 'G4', 'G5', 'G6'];
-        if (g3OrWorse.includes(deutschSubject.grade)) {
-            result.exclusionReasons.push(t('exclusion.sek2.g3Deutsch'));
+        if (mainG3OrWorse >= 1) {
+            result.exclusionReasons.push(t('exclusion.sek2.mainG3Count'));
         }
-        if (g3OrWorse.includes(matheSubject.grade)) {
-            result.exclusionReasons.push(t('exclusion.sek2.g3Mathe'));
-        }
-        if (g3OrWorse.includes(englischSubject.grade)) {
-            result.exclusionReasons.push(t('exclusion.sek2.g3Englisch'));
-        }
-        
-        const hasG2 = countGrade(allGrades, 'G2') > 0;
-        const hasG3OrWorse = countGradesInList(allGrades, ['G3', 'G4', 'G5', 'G6']) > 0;
-        if (hasG2 && hasG3OrWorse) {
+        if (g2OrWorse >= 1 && g3OrWorse >= 1 && g2OrWorse >= 2) {
             result.exclusionReasons.push(t('exclusion.sek2.g2AndG3'));
         }
-        
-        if (countGrade(allGrades, 'G2') >= 3) {
+        if (g2OrWorse > 2) {
             result.exclusionReasons.push(t('exclusion.sek2.g2Count'));
         }
     }
@@ -1007,7 +946,219 @@ function checkDegreeRequirements(targetDegree) {
         return result;
     }
 
-    
+    if (targetDegree === 'esa') {
+        const numericGrades = allGrades.map(toEsaNumericGrade).filter(v => v !== null);
+        const average = numericGrades.reduce((sum, v) => sum + v, 0) / numericGrades.length;
+        const meetsAverage = average <= 4;
+        const allAtLeastG4 = allGrades.every(g => isGradeBetterOrEqual(g, 'G4'));
+        const compensatingSubjects = allWithGrades
+            .filter(s => toEsaNumericGrade(s.grade) !== null && toEsaNumericGrade(s.grade) <= 3)
+            .map(formatSubjectGrade);
+        const deficitSubjects = allWithGrades
+            .filter(s => toEsaNumericGrade(s.grade) !== null && toEsaNumericGrade(s.grade) > 4);
+
+        if (meetsAverage) {
+            result.achieved = true;
+            result.status = allAtLeastG4 ? 'success' : 'warning';
+            result.message = t('result.achieved', { degree: t(config.fullNameKey) });
+            if (allAtLeastG4) {
+                result.directSuccessNote = t(config.directSuccessNoteKey);
+            }
+        } else {
+            result.achieved = false;
+            result.status = 'danger';
+            result.message = t('result.notAchieved', { degree: t(config.fullNameKey) });
+        }
+
+        if (deficitSubjects.length > 0) {
+            result.compensatableProblems = deficitSubjects.map(subject => ({
+                subject: subject.name,
+                compensated: meetsAverage,
+                by: compensatingSubjects
+            }));
+        }
+
+        return result;
+    }
+
+    if (targetDegree === 'msa') {
+        const numericGrades = allGrades.map(toMsaNumericGrade).filter(v => v !== null);
+        const deficits = allWithGrades
+            .map(s => ({ subject: s, numeric: toMsaNumericGrade(s.grade) }))
+            .filter(d => d.numeric > 4);
+
+        const availablePools = {
+            1: allWithGrades.filter(s => toMsaNumericGrade(s.grade) === 1),
+            2: allWithGrades.filter(s => toMsaNumericGrade(s.grade) === 2),
+            3: allWithGrades.filter(s => toMsaNumericGrade(s.grade) === 3)
+        };
+
+        let allCompensated = true;
+
+        const sixes = deficits.filter(d => d.numeric === 6);
+        const fives = deficits.filter(d => d.numeric === 5);
+
+        const compensationDetails = [];
+
+        const useOne = (grade) => availablePools[grade].shift();
+        const useTwo = (grade) => [availablePools[grade].shift(), availablePools[grade].shift()].filter(Boolean);
+
+        const useSingleFrom = (grades) => {
+            for (const grade of grades) {
+                if (availablePools[grade].length >= 1) return [useOne(grade)];
+            }
+            return [];
+        };
+
+        const useDoubleFrom = (grades) => {
+            const used = [];
+            for (const grade of grades) {
+                while (availablePools[grade].length && used.length < 2) {
+                    used.push(useOne(grade));
+                }
+                if (used.length === 2) return used;
+            }
+            return used.length === 2 ? used : [];
+        };
+
+        sixes.forEach(deficit => {
+            const used = useSingleFrom([1]);
+            if (used.length === 0) {
+                used.push(...useDoubleFrom([2, 1]));
+            }
+
+            const compensated = used.length > 0;
+            if (!compensated) allCompensated = false;
+            compensationDetails.push({
+                subject: deficit.subject.name,
+                compensated,
+                by: used.map(formatSubjectGrade)
+            });
+        });
+
+        fives.forEach(deficit => {
+            const used = useSingleFrom([2, 1]);
+            if (used.length === 0) {
+                used.push(...useDoubleFrom([3, 2, 1]));
+            }
+
+            const compensated = used.length > 0;
+            if (!compensated) allCompensated = false;
+            compensationDetails.push({
+                subject: deficit.subject.name,
+                compensated,
+                by: used.map(formatSubjectGrade)
+            });
+        });
+
+        if (deficits.length === 0) {
+            result.achieved = true;
+            result.status = 'success';
+            result.message = t('result.achieved', { degree: t(config.fullNameKey) });
+            result.directSuccessNote = t(config.directSuccessNoteKey);
+        } else if (allCompensated) {
+            result.achieved = true;
+            result.status = 'warning';
+            result.message = t('result.achieved', { degree: t(config.fullNameKey) });
+        } else {
+            result.achieved = false;
+            result.status = 'danger';
+            result.message = t('result.notAchieved', { degree: t(config.fullNameKey) });
+        }
+
+        result.compensatableProblems = compensationDetails;
+        return result;
+    }
+
+    if (targetDegree === 'sek2') {
+        const numericGrades = allGrades.map(toSek2NumericGrade).filter(v => v !== null);
+        const deficits = allWithGrades
+            .map(s => ({ subject: s, numeric: toSek2NumericGrade(s.grade) }))
+            .filter(d => d.numeric > 4);
+
+        const availablePools = {
+            1: allWithGrades.filter(s => toSek2NumericGrade(s.grade) === 1),
+            2: allWithGrades.filter(s => toSek2NumericGrade(s.grade) === 2),
+            3: allWithGrades.filter(s => toSek2NumericGrade(s.grade) === 3)
+        };
+
+        let allCompensated = true;
+
+        const fives = deficits.filter(d => d.numeric === 5);
+        const sixes = deficits.filter(d => d.numeric === 6);
+
+        const compensationDetails = [];
+
+        const useOne = (grade) => availablePools[grade].shift();
+        const useTwo = (grade) => [availablePools[grade].shift(), availablePools[grade].shift()].filter(Boolean);
+
+        const useSingleFrom = (grades) => {
+            for (const grade of grades) {
+                if (availablePools[grade].length >= 1) return [useOne(grade)];
+            }
+            return [];
+        };
+
+        const useDoubleFrom = (grades) => {
+            const used = [];
+            for (const grade of grades) {
+                while (availablePools[grade].length && used.length < 2) {
+                    used.push(useOne(grade));
+                }
+                if (used.length === 2) return used;
+            }
+            return used.length === 2 ? used : [];
+        };
+
+        fives.forEach(deficit => {
+            const used = useSingleFrom([2, 1]);
+            if (used.length === 0) {
+                used.push(...useDoubleFrom([3, 2, 1]));
+            }
+
+            const compensated = used.length > 0;
+            if (!compensated) allCompensated = false;
+            compensationDetails.push({
+                subject: deficit.subject.name,
+                compensated,
+                by: used.map(formatSubjectGrade)
+            });
+        });
+
+        sixes.forEach(deficit => {
+            const used = useSingleFrom([1]);
+            if (used.length === 0) {
+                used.push(...useDoubleFrom([2, 1]));
+            }
+
+            const compensated = used.length > 0;
+            if (!compensated) allCompensated = false;
+            compensationDetails.push({
+                subject: deficit.subject.name,
+                compensated,
+                by: used.map(formatSubjectGrade)
+            });
+        });
+
+        if (deficits.length === 0) {
+            result.achieved = true;
+            result.status = 'success';
+            result.message = t('result.achieved', { degree: t(config.fullNameKey) });
+            result.directSuccessNote = t(config.directSuccessNoteKey);
+        } else if (allCompensated) {
+            result.achieved = true;
+            result.status = 'warning';
+            result.message = t('result.achieved', { degree: t(config.fullNameKey) });
+        } else {
+            result.achieved = false;
+            result.status = 'danger';
+            result.message = t('result.notAchieved', { degree: t(config.fullNameKey) });
+        }
+
+        result.compensatableProblems = compensationDetails;
+        return result;
+    }
+
 
     
     const availableGrades = {};
@@ -1127,7 +1278,6 @@ function getOtherAchievableDegrees(currentTarget) {
 function updateRowColors(targetDegree) {
     if (!targetDegree) return;
 
-    const config = DEGREE_CONFIG[targetDegree];
     const result = checkDegreeRequirements(targetDegree);
 
     subjects.forEach(subject => {
@@ -1139,20 +1289,16 @@ function updateRowColors(targetDegree) {
         if (subject.grade === null) return;
 
         
-        if (config.compensatingGrades.includes(subject.grade)) {
+        const numericGrade = getNumericGradeForDegree(targetDegree, subject.grade);
+        if (numericGrade === null) return;
+
+        if (numericGrade <= 3) {
             row.classList.add('status-green');
+            return;
         }
-        
-        else if (config.compensatableGrades.includes(subject.grade)) {
-            if (result.exclusionReasons.length > 0) {
-                row.classList.add('status-red');
-            } else {
-                row.classList.add('status-yellow');
-            }
-        }
-        
-        else if (isGradeWorse(subject.grade, config.passGrade)) {
-            row.classList.add('status-red');
+
+        if (numericGrade > 4) {
+            row.classList.add(result.exclusionReasons.length > 0 ? 'status-red' : 'status-yellow');
         }
     });
 }

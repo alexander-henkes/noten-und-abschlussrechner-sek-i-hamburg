@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noten- & Abschlussrechner für die Sekundarstufe I (Hamburg)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200..900&display=swap">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="beta-banner" aria-hidden="true">BETA</div>
     <div class="language-switcher" aria-label="Sprache wählen" data-i18n-aria-label="language.label">
         <button class="lang-btn is-active" type="button" data-lang="de" aria-pressed="true" title="Deutsch" data-i18n-title="language.de">
-            <img src="assets/flag_de.svg" alt="Deutsch" class="lang-flag" data-i18n-alt="language.de">
+            <img src="assets/images/flag_de.svg" alt="Deutsch" class="lang-flag" data-i18n-alt="language.de">
         </button>
         <button class="lang-btn" type="button" data-lang="en" aria-pressed="false" title="English" data-i18n-title="language.en">
-            <img src="assets/flag_en.svg" alt="English" class="lang-flag" data-i18n-alt="language.en">
+            <img src="assets/images/flag_en.svg" alt="English" class="lang-flag" data-i18n-alt="language.en">
         </button>
     </div>
     <div class="language-hint" aria-hidden="true">
@@ -21,7 +24,7 @@
     </div>
     <div class="container">
         <header>
-            <h1 data-i18n="app.title">Noten- & Abschlussrechner</h1>
+            <h1 data-i18n-html="app.titleHtml"><span class="title-break">Noten- & </span>Abschlussrechner</h1>
             <p class="subtitle" data-i18n="app.subtitle">Sekundarstufe I (Hamburg) – ESA | MSA | Gymnasiale Oberstufe</p>
         </header>
 
@@ -31,12 +34,17 @@
                 <h2 data-i18n="section.calculator">Durchschnittsrechner</h2>
 
                 <div class="target-selection">
-                    <select id="target-degree" required>
+                    <div class="select-marquee">
+                        <select id="target-degree" required>
                         <option value="" selected disabled data-i18n="select.placeholder">Bitte wählen Sie einen angestrebten Abschluss aus ...</option>
                         <option value="esa" data-i18n="select.esa">ESA (Erster allgemeinbildender Schulabschluss)</option>
                         <option value="msa" data-i18n="select.msa">MSA (Mittlerer Schulabschluss)</option>
                         <option value="sek2" data-i18n="select.sek2">SEK II (Versetzung in die Gymnasiale Oberstufe)</option>
-                    </select>
+                        </select>
+                        <span id="target-degree-marquee" class="select-marquee-text" aria-hidden="true">
+                            <span class="select-marquee-inner"></span>
+                        </span>
+                    </div>
                 </div>
 
                 <div class="grades-table">
@@ -63,6 +71,9 @@
                     <button id="import-btn" class="btn btn-secondary" type="button" data-i18n="importExport.load">Noteneingabe laden</button>
                     <input type="file" id="import-file" accept="application/json" hidden>
                 </div>
+                <div class="print-action">
+                    <button id="print-btn" class="btn btn-secondary" type="button" data-i18n="actions.print">Druckansicht</button>
+                </div>
             </section>
 
             
@@ -88,6 +99,41 @@
                         <span class="legend-color legend-red"></span>
                         <span data-i18n-html="legend.red">Das Fach ist <u>nicht</u> ausgleichbar, der gewählte Abschluss somit <u>ausgeschlossen</u>.</span>
                     </div>
+                </div>
+            </section>
+
+            <section class="print-summary" id="print-summary" aria-hidden="true">
+                <div class="print-block print-page-break">
+                    <h3 data-i18n="print.grades">Notenübersicht</h3>
+                    <table class="print-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="print.subject">Fach</th>
+                                <th data-i18n="print.grade">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody id="print-grades-body"></tbody>
+                    </table>
+                    <div class="print-average">
+                        <span data-i18n="average.label">Notendurchschnitt:</span>
+                        <span id="print-average">–</span>
+                    </div>
+                </div>
+                <div class="card print-prognosis-card">
+                    <h2 data-i18n="section.prognosis">Abschlussprognose</h2>
+                    <div id="print-prognosis"></div>
+                </div>
+                <div class="print-block print-meta">
+                    <span class="print-line-break"></span>
+                    <span data-i18n="print.repoLabel">GitHub-Repository:</span>
+                    <a href="https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg" target="_blank" rel="noopener noreferrer">
+                        github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg
+                    </a>
+                    <span class="print-line-break"></span>
+                    <span data-i18n="print.licenseLabel">Lizenz:</span>
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">
+                        CC BY-NC-SA 4.0
+                    </a>
                 </div>
             </section>
 
@@ -138,20 +184,22 @@
                 <a href="https://github.com/alexander-henkes/noten-und-abschlussrechner-sekundarstufe-1-hamburg/issues/" target="_blank" rel="noopener noreferrer">
                     <img src="https://img.shields.io/github/issues-raw/alexander-henkes/noten-und-abschlussrechner-sekundarstufe-1-hamburg" alt="Issues">
                 </a>
-                <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
-                    <img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg" alt="License">
+                <span class="badge-break"></span>
+                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.svg" alt="CC BY-NC-SA 4.0" class="cc-license-badge">
                 </a>
             </div>
             <p>
                 <span data-i18n="footer.basedOnPrefix">Basierend auf der</span>
                 <a href="https://www.hamburg.de/resource/blob/136184/0f0b5da5811d0277de8491e6de3acb42/apo-grundstgy-data.pdf" target="_blank" data-i18n="footer.basedOnLink">APO-GrundStGy Hamburg</a>
+                <span class="footer-break"></span>
                 <span data-i18n="footer.basedOnSuffix">(Stand: April 2024)</span>
             </p>
             <p class="disclaimer" data-i18n="footer.disclaimer">Angaben ohne Gewähr. Verbindliche Auskünfte erteilt die Schule.</p>
         </footer>
     </div>
     <div class="silhouette" aria-hidden="true">
-        <img src="assets/background.svg" alt="">
+        <img src="assets/images/background.svg" alt="">
     </div>
 
     <script src="script.js"></script>

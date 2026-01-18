@@ -21,7 +21,7 @@ const GRADE_OPTIONS = [
     { value: 'E1', label: 'E1' },
     { value: 'E2', label: 'E2' },
     { value: 'E3', label: 'E3' },
-    { value: 'E4', label: 'E4 / G1' },
+    { value: 'E4', label: 'E4' },
     { value: 'G2', label: 'G2' },
     { value: 'G3', label: 'G3' },
     { value: 'G4', label: 'G4' },
@@ -35,12 +35,13 @@ const GRADE_ORDER = ['E1', 'E2', 'E3', 'E4', 'G2', 'G3', 'G4', 'G5', 'G6'];
 const TRANSLATIONS = {
     de: {
         'app.title': 'Noten- & Abschlussrechner',
+        'app.titleHtml': '<span class="title-break">Noten- & </span>Abschlussrechner',
         'app.subtitle': 'Sekundarstufe I (Hamburg) – ESA | MSA | Gymnasiale Oberstufe',
         'section.calculator': 'Durchschnittsrechner',
         'section.prognosis': 'Abschlussprognose',
         'section.legend': 'Farben / Legende',
-        'section.info': 'Hinweise zu den Schulabschlüssen',
-        'select.placeholder': 'Bitte wählen Sie einen angestrebten Abschluss aus ...',
+        'section.info': 'Abschlusskriterien',
+        'select.placeholder': 'Bitte wählen Sie einen Abschluss ...',
         'select.esa': 'ESA (Erster allgemeinbildender Schulabschluss)',
         'select.msa': 'MSA (Mittlerer Schulabschluss)',
         'select.sek2': 'SEK II (Versetzung in die Gymnasiale Oberstufe)',
@@ -86,20 +87,27 @@ const TRANSLATIONS = {
         'degree.esa.full': 'Der ESA',
         'degree.msa.full': 'Der MSA',
         'degree.sek2.full': 'Die Versetzung in die SEK II',
-        'result.incomplete': 'Bitte geben Sie mindestens die Noten für Deutsch, Mathematik und Englisch ein.',
-        'result.achieved': '{{degree}} wird erreicht!',
-        'result.notAchieved': '{{degree}} kann nicht erreicht werden.',
-        'result.directSuccess.esa': 'Der Erste allgemeinbildende Schulabschluss wird direkt und ohne Notenausgleich erreicht.',
-        'result.directSuccess.msa': 'Der Mittlere Schulabschluss wird direkt und ohne Notenausgleich erreicht.',
-        'result.directSuccess.sek2': 'Die Versetzung wird direkt und ohne Notenausgleich erreicht.',
-        'result.achievedWithCompensation': 'Der Abschluss wird mit Notenausgleich erreicht.',
-        'result.notEnoughCompensation': 'Es sind nicht genügend Ausgleichsmöglichkeiten vorhanden.',
+        'result.incomplete': 'Bitte geben Sie mindestens die Noten für <strong>Deutsch, Mathematik und Englisch</strong> ein.',
+        'result.achieved': '<strong>{{degree}}</strong> wird erreicht!',
+        'result.notAchieved': '<strong>{{degree}}</strong> kann <strong>nicht</strong> erreicht werden.',
+        'result.directSuccess.esa': 'Der Erste allgemeinbildende Schulabschluss wird <strong>direkt</strong> und <strong>ohne Notenausgleich</strong> erreicht.',
+        'result.directSuccess.msa': 'Der Mittlere Schulabschluss wird <strong>direkt</strong> und <strong>ohne Notenausgleich</strong> erreicht.',
+        'result.directSuccess.sek2': 'Die Versetzung wird <strong>direkt</strong> und <strong>ohne Notenausgleich</strong> erreicht.',
+        'result.achievedWithCompensation': 'Der Abschluss wird <strong>mit Notenausgleich</strong> erreicht.',
+        'result.notEnoughCompensation': 'Es sind <strong>nicht genügend Ausgleichsmöglichkeiten</strong> vorhanden.',
         'result.exclusionReasonsLabel': 'Ausschlussgründe:',
         'result.compensatedSubjectsLabel': 'Folgende Fächer werden ausgeglichen:',
         'result.compensationPossibleBy': 'Ausgleich möglich durch:',
         'result.needs': 'benötigt',
-        'result.otherDegrees.sek2': 'Ihr Notenbild ermöglicht ebenfalls die zukünftige Versetzung in die Sekundarstufe II (Gymnasiale Oberstufe).',
-        'result.otherDegrees.msa': 'Ihr Notenbild ermöglicht zukünftig ebenfalls den Mittleren Schulabschluss (MSA).',
+        'result.otherDegrees.sek2': 'Ihr Notenbild ermöglicht ebenfalls die zukünftige <strong>Versetzung in die Sekundarstufe II (Gymnasiale Oberstufe)</strong>.',
+        'result.otherDegrees.msa': 'Ihr Notenbild ermöglicht zukünftig ebenfalls den <strong>Mittleren Schulabschluss (MSA)</strong>.',
+        'actions.print': 'Druckansicht',
+        'print.title': 'Druckansicht',
+        'print.grades': 'Notenübersicht',
+        'print.subject': 'Fach',
+        'print.grade': 'Note',
+        'print.repoLabel': 'GitHub-Repository:',
+        'print.licenseLabel': 'Lizenz:',
         'actions.removeSubject': 'Fach entfernen',
         'label.required': '(Pflichtangabe)',
         'exclusion.esa.g5Both': 'G5 in Deutsch und Mathematik',
@@ -136,11 +144,12 @@ const TRANSLATIONS = {
     },
     en: {
         'app.title': 'Grade & Qualification Calculator',
+        'app.titleHtml': '<span class="title-break">Grade & </span>Qualification Calculator',
         'app.subtitle': 'Secondary Level I (Hamburg) – ESA | MSA | Upper Secondary',
         'section.calculator': 'Average Grade Calculator',
         'section.prognosis': 'Qualification Forecast',
         'section.legend': 'Colors / Legend',
-        'section.info': 'Notes on School Qualifications',
+        'section.info': 'Qualification Criteria',
         'select.placeholder': 'Please select a target qualification ...',
         'select.esa': 'ESA (First General School Certificate)',
         'select.msa': 'MSA (Intermediate School Certificate)',
@@ -187,20 +196,27 @@ const TRANSLATIONS = {
         'degree.esa.full': 'ESA',
         'degree.msa.full': 'MSA',
         'degree.sek2.full': 'Transfer to upper secondary level',
-        'result.incomplete': 'Please enter at least the grades for German, Mathematics, and English.',
-        'result.achieved': '{{degree}} is achieved!',
-        'result.notAchieved': '{{degree}} cannot be achieved.',
-        'result.directSuccess.esa': 'The first general school certificate is achieved directly without compensation.',
-        'result.directSuccess.msa': 'The intermediate school certificate is achieved directly without compensation.',
-        'result.directSuccess.sek2': 'The transfer is achieved directly without compensation.',
-        'result.achievedWithCompensation': 'The qualification is achieved with compensation.',
-        'result.notEnoughCompensation': 'There are not enough compensation options available.',
+        'result.incomplete': 'Please enter at least the grades for <strong>German, Mathematics, and English</strong>.',
+        'result.achieved': '<strong>{{degree}}</strong> is achieved!',
+        'result.notAchieved': '<strong>{{degree}}</strong> cannot be achieved.',
+        'result.directSuccess.esa': 'The first general school certificate is achieved <strong>directly</strong> <strong>without compensation</strong>.',
+        'result.directSuccess.msa': 'The intermediate school certificate is achieved <strong>directly</strong> <strong>without compensation</strong>.',
+        'result.directSuccess.sek2': 'The transfer is achieved <strong>directly</strong> <strong>without compensation</strong>.',
+        'result.achievedWithCompensation': 'The qualification is achieved <strong>with compensation</strong>.',
+        'result.notEnoughCompensation': 'There are <strong>not enough compensation options</strong> available.',
         'result.exclusionReasonsLabel': 'Exclusion reasons:',
         'result.compensatedSubjectsLabel': 'The following subjects are compensated:',
         'result.compensationPossibleBy': 'Compensation possible through:',
         'result.needs': 'requires',
-        'result.otherDegrees.sek2': 'Your grade profile also allows a future transfer to upper secondary level.',
-        'result.otherDegrees.msa': 'Your grade profile will also allow the intermediate school certificate (MSA).',
+        'result.otherDegrees.sek2': 'Your grade profile also allows a future <strong>transfer to upper secondary level</strong>.',
+        'result.otherDegrees.msa': 'Your grade profile will also allow the <strong>intermediate school certificate (MSA)</strong>.',
+        'actions.print': 'Print view',
+        'print.title': 'Print view',
+        'print.grades': 'Grade overview',
+        'print.subject': 'Subject',
+        'print.grade': 'Grade',
+        'print.repoLabel': 'GitHub repository:',
+        'print.licenseLabel': 'License:',
         'actions.removeSubject': 'Remove subject',
         'label.required': '(required)',
         'exclusion.esa.g5Both': 'G5 in German and Mathematics',
@@ -421,10 +437,17 @@ const exportBtn = document.getElementById('export-btn');
 const importBtn = document.getElementById('import-btn');
 const importFileInput = document.getElementById('import-file');
 const importExportContainer = document.querySelector('.import-export');
+const printBtn = document.getElementById('print-btn');
+const printGradesBody = document.getElementById('print-grades-body');
+const printPrognosis = document.getElementById('print-prognosis');
+const printAverage = document.getElementById('print-average');
+const printAction = document.querySelector('.print-action');
 const languageButtons = document.querySelectorAll('.lang-btn');
 const languageHint = document.querySelector('.language-hint');
 const languageSwitcher = document.querySelector('.language-switcher');
 const languageHintArrow = document.querySelector('.language-hint-arrow');
+const targetDegreeMarquee = document.getElementById('target-degree-marquee');
+const targetDegreeMarqueeInner = targetDegreeMarquee?.querySelector('.select-marquee-inner');
 
 
 
@@ -449,11 +472,17 @@ function init() {
     exportBtn?.addEventListener('click', handleExport);
     importBtn?.addEventListener('click', () => importFileInput?.click());
     importFileInput?.addEventListener('change', handleImportFile);
+    printBtn?.addEventListener('click', () => {
+        buildPrintSummary();
+        window.print();
+    });
     languageButtons.forEach(button => {
         button.addEventListener('click', () => setLanguage(button.dataset.lang));
     });
     window.addEventListener('resize', positionLanguageHint);
+    window.addEventListener('resize', updateTargetDegreeMarquee);
     window.addEventListener('scroll', updateLanguageSwitcherVisibility, { passive: true });
+    window.addEventListener('beforeprint', buildPrintSummary);
 
     setLanguage('de');
     hideLanguageHintAfterDelay();
@@ -489,6 +518,95 @@ function positionLanguageHint() {
     languageHint.style.left = `${left}px`;
 }
 
+function buildPrognosisHtml(result, otherDegrees) {
+    let html = '';
+    const icon = result.achieved ? '✓' : '✗';
+    html = `<h3>${icon} ${result.message}</h3>`;
+
+    if (result.status === 'success' && result.directSuccessNote) {
+        html += `<p class="direct-success-note">${result.directSuccessNote}</p>`;
+    } else if (result.status === 'warning') {
+        html += `<p class="direct-success-note">${t('result.achievedWithCompensation')}</p>`;
+    } else if (result.status === 'danger') {
+        html += `<p class="direct-success-note">${t('result.notEnoughCompensation')}</p>`;
+    }
+
+    if (result.exclusionReasons?.length > 0) {
+        html += `<p><strong>${t('result.exclusionReasonsLabel')}</strong></p><ul>`;
+        result.exclusionReasons.forEach(reason => {
+            html += `<li>${reason}</li>`;
+        });
+        html += '</ul>';
+    }
+
+    if (result.compensatableProblems?.length > 0 && result.achieved) {
+        html += `<p><strong>${t('result.compensatedSubjectsLabel')}</strong></p><ul>`;
+        result.compensatableProblems.forEach(p => {
+            html += `<li>${p.subject} (${t('result.needs')} ${p.needs})</li>`;
+        });
+        html += '</ul>';
+    }
+
+    if (result.availableCompensations?.length > 0 && result.achieved && result.status === 'warning') {
+        html += `<p><strong>${t('result.compensationPossibleBy')}</strong> ${result.availableCompensations.join(', ')}</p>`;
+    }
+
+    if (otherDegrees) {
+        html += `<div class="other-degrees">${otherDegrees}</div>`;
+    }
+
+    return html;
+}
+
+function buildPrintSummary() {
+    if (!printGradesBody || !printPrognosis) return;
+    printGradesBody.innerHTML = '';
+    subjects.forEach(subject => {
+        const row = document.createElement('tr');
+        const subjectCell = document.createElement('td');
+        const gradeCell = document.createElement('td');
+        subjectCell.textContent = subject.name;
+        const gradeLabel = GRADE_OPTIONS.find(o => o.value === subject.grade)?.label || '–';
+        gradeCell.textContent = gradeLabel;
+        row.appendChild(subjectCell);
+        row.appendChild(gradeCell);
+        printGradesBody.appendChild(row);
+    });
+
+    const targetDegree = targetDegreeSelect.value;
+    if (printAverage) {
+        printAverage.textContent = targetDegree ? calculateAverageGrade(targetDegree) : '–';
+    }
+    if (!targetDegree) {
+        printPrognosis.innerHTML = `<p>${t('result.incomplete')}</p>`;
+        return;
+    }
+
+    const result = checkDegreeRequirements(targetDegree);
+    const otherDegrees = getOtherAchievableDegrees(targetDegree);
+    printPrognosis.innerHTML = buildPrognosisHtml(result, otherDegrees);
+}
+
+function updateTargetDegreeMarquee() {
+    if (!targetDegreeSelect || !targetDegreeMarquee || !targetDegreeMarqueeInner) return;
+    const option = targetDegreeSelect.options[targetDegreeSelect.selectedIndex];
+    const text = option ? option.textContent.trim() : '';
+    targetDegreeMarqueeInner.textContent = text;
+    targetDegreeMarquee.classList.toggle('is-placeholder', !targetDegreeSelect.value);
+
+    requestAnimationFrame(() => {
+        const availableWidth = targetDegreeMarquee.clientWidth;
+        const contentWidth = targetDegreeMarqueeInner.scrollWidth;
+        const overflow = contentWidth - availableWidth;
+        if (overflow > 4) {
+            targetDegreeMarquee.style.setProperty('--marquee-distance', `${overflow + 24}px`);
+            targetDegreeMarquee.classList.add('is-marquee');
+        } else {
+            targetDegreeMarquee.classList.remove('is-marquee');
+            targetDegreeMarquee.style.removeProperty('--marquee-distance');
+        }
+    });
+}
 
 
 
@@ -1063,6 +1181,7 @@ function updateAll() {
 
     
     updatePrognosis(targetDegree);
+    updateTargetDegreeMarquee();
 }
 
 function updateDegreeVisibility(targetDegree) {
@@ -1073,6 +1192,7 @@ function updateDegreeVisibility(targetDegree) {
     if (addSubjectContainer) addSubjectContainer.style.display = displayValue;
     if (averageDisplay) averageDisplay.style.display = displayValue;
     if (importExportContainer) importExportContainer.style.display = displayValue;
+    if (printAction) printAction.style.display = displayValue;
     if (calculatorCard) calculatorCard.classList.toggle('calculator-compact', !shouldShow);
 }
 
@@ -1093,54 +1213,15 @@ function updatePrognosis(targetDegree) {
     const result = checkDegreeRequirements(targetDegree);
     const otherDegrees = getOtherAchievableDegrees(targetDegree);
 
-    let html = '';
-
     if (result.status === 'incomplete') {
         prognosisCard.style.display = 'none';
         return;
     } else {
         prognosisCard.style.display = 'block';
-
-        const icon = result.achieved ? '✓' : '✗';
-        html = `<h3>${icon} ${result.message}</h3>`;
-
-        
-        if (result.status === 'success' && result.directSuccessNote) {
-            html += `<p class="direct-success-note">${result.directSuccessNote}</p>`;
-        } else if (result.status === 'warning') {
-            html += `<p class="direct-success-note">${t('result.achievedWithCompensation')}</p>`;
-        } else if (result.status === 'danger') {
-            html += `<p class="direct-success-note">${t('result.notEnoughCompensation')}</p>`;
-        }
-
-        if (result.exclusionReasons?.length > 0) {
-            html += `<p><strong>${t('result.exclusionReasonsLabel')}</strong></p><ul>`;
-            result.exclusionReasons.forEach(reason => {
-                html += `<li>${reason}</li>`;
-            });
-            html += '</ul>';
-        }
-
-        if (result.compensatableProblems?.length > 0 && result.achieved) {
-            html += `<p><strong>${t('result.compensatedSubjectsLabel')}</strong></p><ul>`;
-            result.compensatableProblems.forEach(p => {
-                html += `<li>${p.subject} (${t('result.needs')} ${p.needs})</li>`;
-            });
-            html += '</ul>';
-        }
-
-        if (result.availableCompensations?.length > 0 && result.achieved && result.status === 'warning') {
-            html += `<p><strong>${t('result.compensationPossibleBy')}</strong> ${result.availableCompensations.join(', ')}</p>`;
-        }
-
-        if (otherDegrees) {
-            html += `<div class="other-degrees">${otherDegrees}</div>`;
-        }
-
+        const html = buildPrognosisHtml(result, otherDegrees);
         prognosisResult.className = `prognosis prognosis-${result.status}`;
+        prognosisResult.innerHTML = html;
     }
-
-    prognosisResult.innerHTML = html;
 }
 
 

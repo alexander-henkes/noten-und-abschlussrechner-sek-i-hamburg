@@ -23,7 +23,6 @@ lokal im Browser (Client-Side) und überträgt keine Daten an externe Server.
 [![Release Date](https://img.shields.io/github/release-date/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg)](https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg/releases)
 [![Code Size](https://img.shields.io/github/languages/code-size/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg)](https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg)
 [![Issues](https://img.shields.io/github/issues-raw/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg)](https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg/issues/)
-[![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 
 </div>
 
@@ -64,6 +63,7 @@ lokal im Browser (Client-Side) und überträgt keine Daten an externe Server.
 - **Statisch**: Reines `HTML/JS/CSS`, keine Backend-Komponenten.
 - **Lokal**: Alle Berechnungen laufen im Browser.
 - **Abhängigkeiten**: Keine externen JavaScript-Bibliotheken notwendig.
+- **Schriftart**: Source Sans 3 als Variable Font lokal eingebunden (`assets/fonts`, SIL OFL 1.1).
 
 ## Datenschutz-Hinweis
 
@@ -73,11 +73,13 @@ Dieses Tool verarbeitet Noten lokal im Browser.
 
 ## Lizenz
 
-Dieses Projekt ist unter der **Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0)** lizenziert.
+Dieses Projekt ist unter der **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 (CC BY-NC-SA 4.0)** lizenziert.
 Weitere Details finden Sie in der Datei [LICENSE](LICENSE).
+
+![CC BY-NC-SA 4.0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.svg)
 
 ### Was bedeutet das konkret?
 
-✅ Sie dürfen dieses Tool nutzen, kopieren und anpassen, sofern **eine Namensnennung** erfolgt (Attribution).
+✅ Sie dürfen dieses Tool nutzen, kopieren und anpassen, sofern **eine Namensnennung** erfolgt (Attribution) und **Weitergaben unter gleichen Bedingungen** erfolgen (ShareAlike).
 
 ❌ Die **kommerzielle Nutzung** ist ohne ausdrückliche Erlaubnis nicht gestattet!

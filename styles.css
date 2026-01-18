@@ -1,6 +1,15 @@
 
 
 
+@font-face {
+    font-family: 'Source Sans 3';
+    font-style: normal;
+    font-weight: 200 900;
+    font-display: swap;
+    src: url('assets/fonts/source-sans-3-variable.woff2') format('woff2'),
+        url('assets/fonts/source-sans-3-variable.ttf') format('truetype');
+}
+
 :root {
     --primary-color: #003f7f;
     --primary-light: #004a99;
@@ -21,7 +30,7 @@
     --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
 
-    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-main: 'Source Sans 3', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 
@@ -33,9 +42,18 @@
 
 body {
     font-family: var(--font-main);
-    background: linear-gradient(-45deg, var(--primary-light), var(--primary-dark), #003d7a, #001f3f);
-    background-size: 400% 400%;
-    animation: gradientShift 45s ease infinite;
+    background-color: #001f3f;
+    background-image: radial-gradient(
+        ellipse at 50% 100%,
+        #2a5c8f 0%,
+        var(--primary-light) 32%,
+        var(--primary-dark) 62%,
+        #001733 100%
+    );
+    background-repeat: no-repeat;
+    background-size: 160% 160%;
+    background-position: 50% 100%;
+    animation: horizonShift 22s ease-in-out infinite;
     min-height: 100vh;
     padding: 20px;
     color: var(--text-dark);
@@ -91,6 +109,7 @@ body {
     color: white;
     font-size: 24px;
     animation: blinkHint 1.5s ease-in-out 3;
+    animation-fill-mode: forwards;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
@@ -171,15 +190,15 @@ body {
     }
 }
 
-@keyframes gradientShift {
+@keyframes horizonShift {
     0% {
-        background-position: 0% 50%;
+        background-position: 50% 100%;
     }
     50% {
-        background-position: 100% 50%;
+        background-position: 50% 82%;
     }
     100% {
-        background-position: 0% 50%;
+        background-position: 50% 100%;
     }
 }
 
@@ -205,6 +224,10 @@ header h1 {
     font-weight: 700;
     margin-bottom: 10px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.title-break {
+    display: inline;
 }
 
 header .subtitle {
@@ -266,6 +289,52 @@ header .subtitle {
     background-repeat: no-repeat;
     background-position: right 16px center;
     background-size: 14px 9px;
+}
+
+.target-selection .select-marquee {
+    position: relative;
+}
+
+.target-selection .select-marquee select {
+    color: transparent;
+}
+
+.target-selection .select-marquee select:invalid {
+    color: transparent;
+}
+
+.select-marquee-text {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    right: 48px;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    overflow: hidden;
+    color: white;
+    pointer-events: none;
+}
+
+.select-marquee-text.is-placeholder {
+    opacity: 0.8;
+}
+
+.select-marquee-inner {
+    display: inline-block;
+    will-change: transform;
+}
+
+.select-marquee-text.is-marquee .select-marquee-inner {
+    animation: marqueeScroll 8s linear infinite;
+}
+
+@keyframes marqueeScroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-1 * var(--marquee-distance)));
+    }
 }
 
 .target-selection select:focus {
@@ -476,6 +545,68 @@ header .subtitle {
 .import-export .btn {
     flex: 1;
     font-size: 0.9rem;
+}
+
+.print-action {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+.print-action .btn {
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.print-summary {
+    display: none;
+}
+
+.print-block {
+    margin-top: 16px;
+}
+
+.print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+}
+
+.print-table th,
+.print-table td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid #d8d8d8;
+}
+
+.print-average {
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.print-prognosis-card {
+    margin-top: 0;
+}
+
+.print-page-break {
+    break-after: page;
+    page-break-after: always;
+}
+
+.print-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+}
+
+.print-line-break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+.print-meta a {
+    color: var(--primary-color);
 }
 
 .add-subject.add-subject-odd {
@@ -784,6 +915,10 @@ footer a:hover {
     color: white;
 }
 
+.footer-break {
+    display: inline;
+}
+
 footer .disclaimer {
     margin-top: 10px;
     font-size: 0.8rem;
@@ -802,6 +937,16 @@ footer .badges img {
     height: 20px;
 }
 
+.badge-break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+footer .badges .cc-license-badge {
+    height: 40px;
+    width: auto;
+}
+
 
 @media (max-width: 768px) {
     body {
@@ -814,6 +959,10 @@ footer .badges img {
 
     header h1 {
         font-size: 1.8rem;
+    }
+
+    .title-break {
+        display: block;
     }
 
     header .subtitle {
@@ -841,6 +990,61 @@ footer .badges img {
         flex-direction: column;
         gap: 10px;
     }
+
+    .footer-break {
+        display: block;
+    }
+}
+
+@media print {
+    body {
+        background: white;
+        color: #000;
+        animation: none;
+    }
+
+    .language-switcher,
+    .language-hint,
+    .beta-banner,
+    .import-export,
+    .print-action,
+    .add-subject,
+    .grades-table,
+    .target-selection,
+    .average-display,
+    .legend-card,
+    .info-card,
+    #prognosis-card,
+    #calculator-card,
+    details,
+    footer .badges,
+    .silhouette {
+        display: none;
+    }
+
+    #prognosis-card,
+    #calculator-card {
+        display: none !important;
+    }
+
+    .card {
+        box-shadow: none;
+        border: 1px solid #d8d8d8;
+    }
+
+    .print-summary {
+        display: block;
+        color: #000;
+    }
+
+    footer {
+        color: #000;
+    }
+
+    footer a {
+        color: #000;
+    }
+
 }
 
 

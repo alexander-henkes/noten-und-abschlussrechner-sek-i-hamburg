@@ -1,4 +1,4 @@
-# Noten- & Abschlussrechner für die Sekundarstufe I (Hamburg)
+# Noten- & Abschlussrechner für die Sekundarstufe I (Stadtteilschulen in Hamburg)
 
 Webbasiertes Tool zur Berechnung des Notendurchschnitts und einer Abschlussprognose
 (ESA, MSA, Sek II) für die Sekundarstufe I in Hamburg.

@@ -177,9 +177,37 @@ body {
     filter: invert(1) brightness(2);
 }
 
+.plane {
+    position: fixed;
+    top: 50%;
+    left: -20%;
+    width: 80px;
+    height: 60px;
+    background: url('assets/images/plane.svg') no-repeat center/contain;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+    animation: planeFly 84s linear infinite;
+}
+
+@keyframes planeFly {
+    0% {
+        transform: translate(0, -50%);
+    }
+    100% {
+        transform: translate(140vw, -70vh);
+    }
+}
+
 @media (max-width: 640px) {
     .silhouette {
         width: 100%;
+    }
+
+    .plane {
+        width: 60px;
+        height: 45px;
+        top: 50%;
     }
 }
 
@@ -1071,6 +1099,7 @@ footer .badges .cc-license-badge {
     #calculator-card,
     details,
     footer .badges,
+    .plane,
     .silhouette {
         display: none;
     }

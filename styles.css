@@ -1026,6 +1026,7 @@ footer .badges img {
 footer .badges .cc-license-badge {
     height: 40px;
     width: auto;
+    opacity: 0.8;
 }
 
 

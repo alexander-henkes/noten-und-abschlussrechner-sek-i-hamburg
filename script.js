@@ -127,7 +127,10 @@ const TRANSLATIONS = {
         'exclusion.sek2.g2AndG3': 'Kombination aus G2 oder schlechter und G3 oder schlechter in 2 Fächern',
         'exclusion.sek2.g2Count': 'Mehr als zwei Fächer mit G2 oder schlechter',
         'import.invalidJson': 'Die Importdatei ist ungültig.',
-        'import.invalidSubjects': 'Die Importdatei enthält keine gültigen Fächer.'
+        'import.invalidSubjects': 'Die Importdatei enthält keine gültigen Fächer.',
+        'notice.title': 'Hinweise zur Nutzung',
+        'notice.text': '<ul class="notice-list"><li><strong>Datenschutzkonform:</strong> Alle Notenberechnungen werden <u>ausschließlich</u> lokal, in ihrem Browser durchgeführt.</li><li><strong>Testphase:</strong> Die Anwendung befindet sich zurzeit in der Testphase. Vereinzelte Fehler in der Berechnungslogik sind nicht ausgeschlossen. <u>Alle Angaben sind ohne Gewähr.</u> Verbindliche Auskünfte erteilen die Schulen.</li></ul>',
+        'notice.cta': 'Verstanden!'
     },
     en: {
         'app.titleHtml': '<span class="title-break">Grade & </span>Qualification Calculator',
@@ -229,7 +232,10 @@ const TRANSLATIONS = {
         'exclusion.sek2.g2AndG3': 'Combination of G2 or worse and G3 or worse in 2 subjects',
         'exclusion.sek2.g2Count': 'More than two subjects with G2 or worse',
         'import.invalidJson': 'The import file is invalid.',
-        'import.invalidSubjects': 'The import file contains no valid subjects.'
+        'import.invalidSubjects': 'The import file contains no valid subjects.',
+        'notice.title': 'Usage notes',
+        'notice.text': '<ul class="notice-list"><li><strong>Privacy-friendly:</strong> All grade calculations are performed locally in your browser only.</li><li><strong>Test phase:</strong> This application is currently in a test phase. Errors in the qualification calculation logic are therefore not excluded. All information is provided without guarantee. Binding information is provided by the schools.</li></ul>',
+        'notice.cta': 'Understood!'
     }
 };
 
@@ -380,6 +386,10 @@ const languageHintArrow = document.querySelector('.language-hint-arrow');
 const targetDegreeMarquee = document.getElementById('target-degree-marquee');
 const targetDegreeMarqueeInner = targetDegreeMarquee?.querySelector('.select-marquee-inner');
 const infoSections = document.querySelectorAll('.info-section');
+const noticeModal = document.getElementById('notice-modal');
+const noticeAcceptBtn = document.getElementById('notice-accept');
+
+const NOTICE_STORAGE_KEY = 'noticeAccepted';
 
 
 
@@ -417,8 +427,48 @@ function init() {
     window.addEventListener('beforeprint', buildPrintSummary);
 
     setLanguage('de');
+    setupNoticeModal();
     hideLanguageHintAfterDelay();
     updateLanguageSwitcherVisibility();
+}
+
+function hasAcceptedNotice() {
+    try {
+        return localStorage.getItem(NOTICE_STORAGE_KEY) === '1';
+    } catch (error) {
+        return false;
+    }
+}
+
+function persistNoticeAcceptance() {
+    try {
+        localStorage.setItem(NOTICE_STORAGE_KEY, '1');
+    } catch (error) {
+        return;
+    }
+}
+
+function openNoticeModal() {
+    if (!noticeModal) return;
+    noticeModal.classList.remove('is-hidden');
+    document.body.classList.add('modal-open');
+}
+
+function closeNoticeModal() {
+    if (!noticeModal) return;
+    noticeModal.classList.add('is-hidden');
+    document.body.classList.remove('modal-open');
+}
+
+function setupNoticeModal() {
+    if (!noticeModal || !noticeAcceptBtn) return;
+    if (hasAcceptedNotice()) return;
+    openNoticeModal();
+    requestAnimationFrame(() => noticeAcceptBtn.focus());
+    noticeAcceptBtn.addEventListener('click', () => {
+        persistNoticeAcceptance();
+        closeNoticeModal();
+    }, { once: true });
 }
 
 function hideLanguageHintAfterDelay() {

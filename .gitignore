@@ -1,2 +1,34 @@
+# --- default ---
+*.log
+*.map
+*.swo
+*.swp
+*.tmp
+.cache/
+.env
+.env.*
+.eslintcache
+.idea/
+.parcel-cache/
+.pnp.*
+.sass-cache/
+.stylelintcache
+.turbo/
+.vscode/
+build/
+coverage/
+dist/
+node_modules/
+npm-debug.log*
+out/
+pnpm-debug.log*
+Thumbs.db
+vendor/
+yarn-debug.log*
+yarn-error.log*
+# --------------
+
+# --- custom ---
 .DS_Store
-Dokumente/
+Behördendokumente/
+# --------------

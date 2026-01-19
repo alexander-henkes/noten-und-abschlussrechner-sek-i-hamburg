@@ -1,6 +1,3 @@
-
-
-
 @font-face {
     font-family: 'Source Sans 3';
     font-style: normal;
@@ -363,6 +360,7 @@ header .subtitle {
 
 .target-selection select option {
     color: var(--text-dark);
+    background-color: #fff;
 }
 
 
@@ -575,6 +573,10 @@ header .subtitle {
     font-size: 0.8rem;
     color: var(--text-muted);
     text-align: center;
+}
+
+.print-action .print-note:first-of-type {
+    margin-top: 6px;
 }
 
 .print-summary {
@@ -867,6 +869,31 @@ header .subtitle {
     cursor: pointer;
 }
 
+.info-card .info-section {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.info-card .info-section:last-of-type {
+    border-bottom: none;
+    padding-bottom: 16px;
+}
+
+.info-card .info-section summary {
+    gap: 8px;
+}
+
+.info-card .info-section-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.info-card .info-section-body {
+    margin: 8px 0 2px;
+}
+
 .info-card details[open] .info-content {
     margin-top: 20px;
 }
@@ -1118,4 +1145,19 @@ footer .badges .cc-license-badge {
     footer {
         color: var(--text-muted);
     }
+
+    #print-prognosis ul {
+        margin: 8px 0 0;
+        padding-left: 22px;
+        list-style-position: outside;
+    }
+
+    #print-prognosis li {
+        margin-bottom: 4px;
+    }
+
+    #print-prognosis li:last-child {
+        margin-bottom: 0;
+    }
 }
+/* Alexander Henkes (2026) – Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) */

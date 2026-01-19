@@ -1,9 +1,3 @@
-
-
-
-
-
-
 const DEFAULT_SUBJECTS = [
     { nameKey: 'subject.german', isMain: true, mainKey: 'de' },
     { nameKey: 'subject.mathematics', isMain: true, mainKey: 'math' },
@@ -36,7 +30,7 @@ const TRANSLATIONS = {
     de: {
         'app.titleHtml': '<span class="title-break">Noten- & </span>Abschlussrechner',
         'app.subtitle': 'Sekundarstufe I (Hamburg) – ESA | MSA | Gymnasiale Oberstufe',
-        'section.calculator': 'Durchschnittsrechner',
+        'section.calculator': 'Durchschnittsrechner <sup>1</sup>',
         'section.prognosis': 'Abschlussprognose',
         'section.legend': 'Farben / Legende',
         'section.info': 'Abschlusskriterien',
@@ -45,7 +39,7 @@ const TRANSLATIONS = {
         'select.msa': 'MSA (Mittlerer Schulabschluss)',
         'select.sek2': 'SEK II (Versetzung in die Gymnasiale Oberstufe)',
         'table.subjects': 'Fächer',
-        'table.grades': 'Noten *',
+        'table.grades': 'Noten <sup>2</sup>',
         'addSubject.placeholder': 'Weiteres Fach hinzufügen ...',
         'average.label': 'Notendurchschnitt:',
         'importExport.save': 'Noteneingabe speichern',
@@ -73,7 +67,7 @@ const TRANSLATIONS = {
         'footer.basedOnPrefix': 'Basierend auf der',
         'footer.basedOnLink': 'APO-GrundStGy Hamburg',
         'footer.basedOnSuffix': '(Stand: April 2024)',
-        'footer.disclaimer': 'Angaben ohne Gewähr. Verbindliche Auskünfte erteilt die Schule.',
+        'footer.disclaimer': 'Alexander Henkes (2026)',
         'language.label': 'Sprache wählen',
         'language.de': 'Deutsch',
         'language.en': 'Englisch',
@@ -107,7 +101,8 @@ const TRANSLATIONS = {
         'result.otherDegrees.sek2': 'Ihr Notenbild ermöglicht künftig auch die <strong>Versetzung in die Sekundarstufe II (Gymnasiale Oberstufe)</strong>.',
         'result.otherDegrees.msa': 'Ihr Notenbild ermöglicht künftig auch den <strong>Mittleren Schulabschluss (MSA)</strong>.',
         'actions.print': 'Druckansicht',
-        'print.note': '* Alle Noteneingaben sind (sofern notwendig) mit verrechneten Abschlussprüfungen vorzunehmen.',
+        'print.note': '<sup>2</sup> Alle Noteneingaben sind (sofern notwendig) mit verrechneten Abschlussprüfungen vorzunehmen.',
+        'print.disclaimerNote': '<sup>1</sup> Angaben ohne Gewähr. Verbindliche Auskünfte erteilt die Schule.',
         'print.grades': 'Notenübersicht',
         'print.subject': 'Fach',
         'print.grade': 'Note',
@@ -137,7 +132,7 @@ const TRANSLATIONS = {
     en: {
         'app.titleHtml': '<span class="title-break">Grade & </span>Qualification Calculator',
         'app.subtitle': 'Secondary Level I (Hamburg) – ESA | MSA | Upper Secondary',
-        'section.calculator': 'Average Grade Calculator',
+        'section.calculator': 'Average Grade Calculator <sup>1</sup>',
         'section.prognosis': 'Qualification Forecast',
         'section.legend': 'Colors / Legend',
         'section.info': 'Qualification Criteria',
@@ -146,7 +141,7 @@ const TRANSLATIONS = {
         'select.msa': 'MSA (Intermediate School Certificate)',
         'select.sek2': 'Upper Secondary (transfer to upper secondary level)',
         'table.subjects': 'Subjects',
-        'table.grades': 'Grades *',
+        'table.grades': 'Grades <sup>2</sup>',
         'addSubject.placeholder': 'Add another subject ...',
         'average.label': 'Average grade:',
         'importExport.save': 'Save grade input',
@@ -174,7 +169,7 @@ const TRANSLATIONS = {
         'footer.basedOnPrefix': 'Based on the',
         'footer.basedOnLink': 'APO-GrundStGy Hamburg',
         'footer.basedOnSuffix': '(as of April 2024)',
-        'footer.disclaimer': 'Information without guarantee. The school provides binding information.',
+        'footer.disclaimer': 'Alexander Henkes (2026)',
         'language.label': 'Select language',
         'language.de': 'German',
         'language.en': 'English',
@@ -208,7 +203,8 @@ const TRANSLATIONS = {
         'result.otherDegrees.sek2': 'Your grade profile also qualifies you for a future <strong>transfer to upper secondary level</strong>.',
         'result.otherDegrees.msa': 'Your grade profile also qualifies you for the <strong>intermediate school certificate (MSA)</strong>.',
         'actions.print': 'Print view',
-        'print.note': '* All grade entries should include exam results where applicable.',
+        'print.note': '<sup>2</sup> All grade entries should include exam results where applicable.',
+        'print.disclaimerNote': '<sup>1</sup> No warranty. The school provides binding information.',
         'print.grades': 'Grade overview',
         'print.subject': 'Subject',
         'print.grade': 'Grade',
@@ -383,6 +379,7 @@ const languageSwitcher = document.querySelector('.language-switcher');
 const languageHintArrow = document.querySelector('.language-hint-arrow');
 const targetDegreeMarquee = document.getElementById('target-degree-marquee');
 const targetDegreeMarqueeInner = targetDegreeMarquee?.querySelector('.select-marquee-inner');
+const infoSections = document.querySelectorAll('.info-section');
 
 
 
@@ -1312,6 +1309,7 @@ function updateAll() {
 
     updateDegreeVisibility(targetDegree);
     updateAddSubjectStriping();
+    updateInfoSections(targetDegree);
 
     
     if (targetDegree) {
@@ -1340,6 +1338,15 @@ function updateDegreeVisibility(targetDegree) {
     if (importExportContainer) importExportContainer.style.display = displayValue;
     if (printAction) printAction.style.display = displayValue;
     if (calculatorCard) calculatorCard.classList.toggle('calculator-compact', !shouldShow);
+}
+
+function updateInfoSections(targetDegree) {
+    if (!infoSections.length) return;
+
+    infoSections.forEach(section => {
+        const shouldOpen = section.dataset.degree === targetDegree;
+        section.open = shouldOpen;
+    });
 }
 
 function updateAddSubjectStriping() {
@@ -1375,3 +1382,4 @@ function updatePrognosis(targetDegree) {
 
 
 document.addEventListener('DOMContentLoaded', init);
+/* Alexander Henkes (2026) – Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) */

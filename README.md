@@ -1,19 +1,18 @@
 # Noten- & Abschlussrechner für die Sekundarstufe I (Stadtteilschulen in Hamburg)
 
-Webbasiertes Tool zur Berechnung des Notendurchschnitts und einer Abschlussprognose
-(ESA, MSA, Sek II) für die Sekundarstufe I (Stadtteilschulen) in Hamburg.
-
-## Anwendungskontext
+**Webbasiertes Tool** zur Berechnung des **Notendurchschnitts** und einer **Abschlussprognose**
+(ESA, eESA, MSA, SEK II) für die **Sekundarstufe I** (an Stadtteilschulen) in Hamburg.
 
 Dieses Repository enthält eine statische Webanwendung (`HTML/JS/CSS`), mit der
-Schülerinnen und Schüler ihre E-/G-Noten erfassen können. Das Tool läuft vollständig
-lokal im Browser (Client-Side) und überträgt keine Daten an externe Server.
+Schülerinnen und Schüler ihre **E-/G-Noten** erfassen können. Das Tool läuft vollständig
+lokal im Browser und überträgt keine Daten an externe Server.
 
+<br>
 <div align="center">
 
 ## 🚀 DIREKT NUTZEN 🚀
 
-### **[➡️ Programm direkt auf GitHub Pages nutzen ⬅️](https://alexander-henkes.github.io/noten-und-abschlussrechner-sek-i-hamburg/)**
+### **[➡️ Programm direkt auf <u>GitHub Pages</u> nutzen ⬅️](https://alexander-henkes.github.io/noten-und-abschlussrechner-sek-i-hamburg/)**
 
 [![GitHub](https://img.shields.io/badge/GitHub-alexander--henkes-blue?logo=github)](https://github.com/alexander-henkes)
 [![Website](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Falexander-henkes.github.io%2Fnoten-und-abschlussrechner-sek-i-hamburg%2F)](https://alexander-henkes.github.io/noten-und-abschlussrechner-sek-i-hamburg/)
@@ -25,9 +24,22 @@ lokal im Browser (Client-Side) und überträgt keine Daten an externe Server.
 
 </div>
 
----
+<br>
 
-### Funktionen
+## Grundlage: APO-GrundStGy (04/2024)
+
+Als Ausgangsgrundlage zwecks Noten- und Abschlussberechnung dienen die §§ 29-31 der hamburgischen [APO-GrundStGy](https://web.archive.org/web/20260120104037/https://www.hamburg.de/resource/blob/136184/0f0b5da5811d0277de8491e6de3acb42/apo-grundstgy-data.pdf) (Stand: April 2024). Die einzelnen, abschlussbezogenen Paragraphen sind hier einzusehen:
+
+* [ESA](https://www.landesrecht-hamburg.de/bsha/document/jlr-Grd_StTSchulGymAPOHAV16P29) (Erster allgemeinbildender Schulabschluss – § 29)
+* [eESA](https://www.landesrecht-hamburg.de/bsha/document/jlr-Grd_StTSchulGymAPOHAV6P29a) (erweiterter Erster allgemeinbildender Schulabschluss – § 29a)
+* [MSA](https://www.landesrecht-hamburg.de/bsha/document/jlr-Grd_StTSchulGymAPOHAV16P30) (Mittlerer Schulabschluss – § 30)
+* [SEK II](https://www.landesrecht-hamburg.de/bsha/document/jlr-Grd_StTSchulGymAPOHApP31) (Vorstufe der Gymnasialen Oberstufe – § 31)
+ 
+Das Tool befindet sich in der <u>Testphase</u>.
+<br>
+<u>Angaben ohne Gewähr</u> – Verbindliche Auskünfte erteilen die Schulen!
+
+## Funktionen
 
 - **Abschlusswahl**: ESA, MSA oder Versetzung in die Sekundarstufe II.
 - **Noteneingabe**: Fächerliste mit Pflichtfächern (D/M/E) und frei ergänzbaren Fächern.
@@ -37,25 +49,6 @@ lokal im Browser (Client-Side) und überträgt keine Daten an externe Server.
 - **Import/Export**: Noteneingaben als JSON speichern/herunterladen und hochladen.
 - **Druckansicht**: Druckfähige Zusammenfassung der Noten und Prognose.
 - **Sprachumschaltung**: Deutsch und Englisch.
-
-## Installation & Nutzung
-
-### Option 1: Online-Nutzung (empfohlen)
-1. Rufen Sie den [Link zur Webanwendung](https://alexander-henkes.github.io/noten-und-abschlussrechner-sek-i-hamburg/) auf.
-2. Das Tool wird vollständig in Ihren Browser geladen und funktioniert ab dann auch ohne Internetverbindung.
-
-### Option 2: Lokale Nutzung
-1. Laden Sie dieses Repository als ZIP-Datei herunter oder klonen Sie es:
-   ```bash
-   git clone https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg.git
-   ```
-2. Öffnen Sie die Datei `index.html` in einem beliebigen Browser.
-
-## Verwendung
-
-1. **Abschluss:** Wählen Sie zuerst den angestrebten Abschluss.
-2. **Noteneingabe:** Tragen Sie die Noten in den Fächern ein (Pflichtfächer zuerst).
-3. **Abschlussprognose:** Prognose und Durchschnitt werden automatisch aktualisiert.
 
 ## Verzeichnisstruktur
 
@@ -79,6 +72,27 @@ noten-und-abschlussrechner-sek-i-hamburg
 └── LICENSE
 ```
 
+## Installation
+
+### Option 1: Online-Nutzung (empfohlen)
+
+1. Rufen Sie den [Link zur Webanwendung](https://alexander-henkes.github.io/noten-und-abschlussrechner-sek-i-hamburg/) auf.
+2. Das Tool wird vollständig in Ihren Browser geladen und funktioniert ab dann auch ohne Internetverbindung.
+
+### Option 2: Lokale Nutzung
+
+1. Laden Sie dieses Repository als ZIP-Datei herunter oder klonen Sie es:
+   ```bash
+   git clone https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg.git
+   ```
+2. Öffnen Sie die Datei `index.html` in einem beliebigen Browser.
+
+## Nutzung/Verwendung
+
+1. **Abschluss:** Wählen Sie zuerst den angestrebten Abschluss.
+2. **Noteneingabe:** Tragen Sie die Noten in den Fächern ein (Pflichtfächer zuerst).
+3. **Abschlussprognose:** Prognose und Durchschnitt werden automatisch aktualisiert.
+
 ## Technische Details
 
 - **Statisch**: Reines `HTML/JS/CSS`, ohne Backend-Komponenten.
@@ -86,14 +100,8 @@ noten-und-abschlussrechner-sek-i-hamburg
 - **Abhängigkeiten**: Keine externen JavaScript-Bibliotheken notwendig.
 - **Schriftart**: Source Sans 3 als Variable Font lokal eingebunden (`assets/fonts`, SIL OFL 1.1).
 
-## Berechnungsgrundlage & Hinweise
-
-- **Rechtsgrundlage**: APO-GrundStGy Hamburg (Stand: April 2024).
-- **Haftung**: Das Tool befindet sich in einer Testphase; Angaben ohne Gewähr. Verbindliche Auskünfte erteilen die Schulen.
-
 ## Datenschutz
 
-Dieses Tool verarbeitet alle Noten bzw. personenbezogenen Daten lokal im Browser.
 - **Kein Upload**: Es findet keine Datenübertragung zu einem Server statt.
 - **Lokale Ausführung**: Der JavaScript-Code läuft ausschließlich auf Ihrem Endgerät.
 

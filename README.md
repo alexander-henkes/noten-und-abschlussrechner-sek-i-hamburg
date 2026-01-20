@@ -79,11 +79,6 @@ noten-und-abschlussrechner-sek-i-hamburg
 └── LICENSE
 ```
 
-### Import/Export des Notenbildes
-
-- **Speichern**: Erzeugt eine JSON-Datei mit den aktuellen Noten und Einstellungen.
-- **Laden**: Stellt die Noten aus einer vorherigen JSON-Datei wieder her.
-
 ## Technische Details
 
 - **Statisch**: Reines `HTML/JS/CSS`, ohne Backend-Komponenten.

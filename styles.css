@@ -137,15 +137,14 @@ body.modal-open {
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    transform: rotate(-45deg) translateY(12px);
+    transform: rotate(-45deg) translateY(0);
     box-shadow: var(--shadow);
     z-index: 900;
     pointer-events: none;
-    opacity: 0;
+    opacity: 1;
     visibility: visible;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
-    animation: betaStaggerIn 0.6s ease forwards, betaPulse 0.8s ease 1;
-    animation-delay: calc(var(--beta-stagger, 10) * 120ms), calc((var(--beta-stagger, 10) * 120ms) + 0.6s);
+    transition: none;
+    animation: none;
 }
 
 .language-switcher {

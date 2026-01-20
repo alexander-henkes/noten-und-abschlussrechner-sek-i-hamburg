@@ -100,6 +100,8 @@ const TRANSLATIONS = {
         'result.exclusionSentencePrefix': 'Der folgende Umstand schließt den Abschluss aus:',
         'result.otherDegrees.sek2': 'Ihr Notenbild ermöglicht künftig auch die <strong>Versetzung in die Sekundarstufe II (Gymnasiale Oberstufe)</strong>.',
         'result.otherDegrees.msa': 'Ihr Notenbild ermöglicht künftig auch den <strong>Mittleren Schulabschluss (MSA)</strong>.',
+        'result.otherDegrees.eesa': 'Mit Abschluss der Jahrgangsstufe 10 wird der <strong>erweiterte Erste Allgemeinbildende Schulabschluss (eESA)</strong> erreicht.',
+        'result.otherDegrees.eesa.notAchieved': 'Mit dem aktuellen Notenbild wird der <strong>erweiterte Erste Allgemeinbildende Schulabschluss (eESA)</strong> auch mit Abschluss der Jahrgangsstufe 10 nicht erreicht.',
         'actions.print': 'Druckansicht',
         'print.note': '<sup>2</sup> Alle Noteneingaben sind (sofern notwendig) mit verrechneten Abschlussprüfungen vorzunehmen.',
         'print.disclaimerNote': '<sup>1</sup> Angaben ohne Gewähr. Verbindliche Auskünfte erteilt die Schule.',
@@ -205,6 +207,8 @@ const TRANSLATIONS = {
         'result.exclusionSentencePrefix': 'The following condition excludes the qualification:',
         'result.otherDegrees.sek2': 'Your grade profile also qualifies you for a future <strong>transfer to upper secondary level</strong>.',
         'result.otherDegrees.msa': 'Your grade profile also qualifies you for the <strong>intermediate school certificate (MSA)</strong>.',
+        'result.otherDegrees.eesa': 'With completion of grade 10, the <strong>extended first general school certificate (eESA)</strong> will be achieved.',
+        'result.otherDegrees.eesa.notAchieved': 'With the current grade profile, the <strong>extended first general school certificate (eESA)</strong> will not be achieved even with completion of grade 10.',
         'actions.print': 'Print view',
         'print.note': '<sup>2</sup> All grade entries should include exam results where applicable.',
         'print.disclaimerNote': '<sup>1</sup> No warranty. The school provides binding information.',
@@ -390,6 +394,7 @@ const noticeModal = document.getElementById('notice-modal');
 const noticeAcceptBtn = document.getElementById('notice-accept');
 
 const NOTICE_STORAGE_KEY = 'noticeAccepted';
+const NOTICE_DISMISS_DURATION_MS = 24 * 60 * 60 * 1000;
 
 
 
@@ -434,7 +439,11 @@ function init() {
 
 function hasAcceptedNotice() {
     try {
-        return localStorage.getItem(NOTICE_STORAGE_KEY) === '1';
+        const storedValue = localStorage.getItem(NOTICE_STORAGE_KEY);
+        if (!storedValue) return false;
+        const storedTimestamp = Number(storedValue);
+        if (!Number.isFinite(storedTimestamp)) return false;
+        return Date.now() - storedTimestamp < NOTICE_DISMISS_DURATION_MS;
     } catch (error) {
         return false;
     }
@@ -442,7 +451,7 @@ function hasAcceptedNotice() {
 
 function persistNoticeAcceptance() {
     try {
-        localStorage.setItem(NOTICE_STORAGE_KEY, '1');
+        localStorage.setItem(NOTICE_STORAGE_KEY, String(Date.now()));
     } catch (error) {
         return;
     }
@@ -569,7 +578,7 @@ function buildPrintSummary() {
     }
 
     const result = checkDegreeRequirements(targetDegree);
-    const otherDegrees = getOtherAchievableDegrees(targetDegree);
+    const otherDegrees = getOtherAchievableDegrees(targetDegree, result);
     printPrognosis.innerHTML = buildPrognosisHtml(result, otherDegrees);
 }
 
@@ -602,7 +611,7 @@ function addSubject(name, isMain = false, grade = null, mainKey = null, nameKey 
         id: nextSubjectId++,
         name: name,
         isMain: isMain,
-        grade: grade, 
+        grade: grade,
         mainKey: mainKey,
         nameKey: nameKey
     };
@@ -854,7 +863,7 @@ function calculateAverageGrade(targetDegree) {
 
     if (gradesWithValues.length === 0) return '–';
 
-    
+
     const avgPosition = gradesWithValues.reduce((sum, g) => sum + GRADE_ORDER.indexOf(g), 0) / gradesWithValues.length;
     const roundedPosition = Math.round(avgPosition);
     const clampedPosition = Math.max(0, Math.min(GRADE_ORDER.length - 1, roundedPosition));
@@ -879,7 +888,7 @@ function checkDegreeRequirements(targetDegree) {
         exclusionReasons: []
     };
 
-    
+
     const deutschSubject = subjects.find(s => s.mainKey === 'de');
     const matheSubject = subjects.find(s => s.mainKey === 'math');
     const englischSubject = subjects.find(s => s.mainKey === 'en');
@@ -890,12 +899,12 @@ function checkDegreeRequirements(targetDegree) {
         return result;
     }
 
-    
+
     const allWithGrades = subjects.filter(s => s.grade !== null);
     const allGrades = allWithGrades.map(s => s.grade);
     const mainGrades = [deutschSubject.grade, matheSubject.grade, englischSubject.grade];
 
-    
+
     let passed = [];
     let needsCompensation = [];
     if (config?.passGrade && config?.compensatableGrades) {
@@ -905,14 +914,14 @@ function checkDegreeRequirements(targetDegree) {
         );
     }
 
-    
+
 
     if (targetDegree === 'esa') {
-        
+
         if (deutschSubject.grade === 'G5' && matheSubject.grade === 'G5') {
             result.exclusionReasons.push(t('exclusion.esa.g5Both'));
         }
-        
+
         if (deutschSubject.grade === 'G6') {
             result.exclusionReasons.push(t('exclusion.esa.g6Deutsch'));
         }
@@ -922,11 +931,11 @@ function checkDegreeRequirements(targetDegree) {
         if (englischSubject.grade === 'G6') {
             result.exclusionReasons.push(t('exclusion.esa.g6Englisch'));
         }
-        
+
         if (countGrade(allGrades, 'G6') >= 2) {
             result.exclusionReasons.push(t('exclusion.esa.g6Count'));
         }
-        
+
         if (countGradesInList(allGrades, ['G5', 'G6']) > 2) {
             result.exclusionReasons.push(t('exclusion.esa.g5OrWorseCount'));
         }
@@ -984,7 +993,7 @@ function checkDegreeRequirements(targetDegree) {
         }
     }
 
-    
+
     if (result.exclusionReasons.length > 0) {
         result.status = 'danger';
         result.message = t('result.notAchieved', { degree: t(config.fullNameKey) });
@@ -1207,7 +1216,7 @@ function checkDegreeRequirements(targetDegree) {
     }
 
 
-    
+
     const availableGrades = {};
     passed.forEach(s => {
         if (config.compensatingGrades.includes(s.grade)) {
@@ -1216,10 +1225,10 @@ function checkDegreeRequirements(targetDegree) {
         }
     });
 
-    
+
     const remainingGrades = { ...availableGrades };
 
-    
+
     const deficits = [];
     needsCompensation.forEach(s => {
         const label = config.compensationLabelKeys[s.grade] ? t(config.compensationLabelKeys[s.grade]) : '';
@@ -1235,10 +1244,10 @@ function checkDegreeRequirements(targetDegree) {
         });
     });
 
-    
+
     deficits.sort((a, b) => GRADE_ORDER.indexOf(b.grade) - GRADE_ORDER.indexOf(a.grade));
 
-    
+
     let allCompensated = true;
 
     for (const deficit of deficits) {
@@ -1250,7 +1259,7 @@ function checkDegreeRequirements(targetDegree) {
 
         let compensated = false;
 
-        
+
         for (const singleGrade of rules.single) {
             if (remainingGrades[singleGrade] >= 1) {
                 remainingGrades[singleGrade]--;
@@ -1259,7 +1268,7 @@ function checkDegreeRequirements(targetDegree) {
             }
         }
 
-        
+
         if (!compensated && rules.double) {
             for (const doubleGrade of rules.double) {
                 if (remainingGrades[doubleGrade] >= 2) {
@@ -1275,7 +1284,7 @@ function checkDegreeRequirements(targetDegree) {
         }
     }
 
-    
+
     if (deficits.length > 0) {
         result.problems = needsCompensation.map(s => s.name);
 
@@ -1299,23 +1308,40 @@ function checkDegreeRequirements(targetDegree) {
 }
 
 
-function getOtherAchievableDegrees(currentTarget) {
+function getOtherAchievableDegrees(currentTarget, currentResult) {
     const sek2Result = checkDegreeRequirements('sek2');
     const msaResult = checkDegreeRequirements('msa');
+    const esaResult = checkDegreeRequirements('esa');
+    const notes = [];
 
     if (currentTarget === 'esa') {
+        const showsMsaNote = !sek2Result.achieved && msaResult.achieved;
         if (sek2Result.achieved) {
-            return t('result.otherDegrees.sek2');
+            notes.push(t('result.otherDegrees.sek2'));
         } else if (msaResult.achieved) {
-            return t('result.otherDegrees.msa');
+            notes.push(t('result.otherDegrees.msa'));
+        }
+
+        if (currentResult?.achieved && !showsMsaNote) {
+            notes.push(t('result.otherDegrees.eesa'));
         }
     } else if (currentTarget === 'msa') {
         if (sek2Result.achieved) {
-            return t('result.otherDegrees.sek2');
+            notes.push(t('result.otherDegrees.sek2'));
+        }
+
+        if (currentResult && !currentResult.achieved) {
+            if (esaResult.achieved) {
+                notes.push(t('result.otherDegrees.eesa'));
+            } else {
+                notes.push(t('result.otherDegrees.eesa.notAchieved'));
+            }
         }
     }
 
-    return null;
+    if (notes.length === 0) return null;
+    if (notes.length === 1) return notes[0];
+    return notes.map(note => `<p>${note}</p>`).join('');
 }
 
 
@@ -1335,7 +1361,7 @@ function updateRowColors(targetDegree) {
 
         if (subject.grade === null) return;
 
-        
+
         const numericGrade = getNumericGradeForDegree(targetDegree, subject.grade);
         if (numericGrade === null) return;
 
@@ -1361,19 +1387,19 @@ function updateAll() {
     updateAddSubjectStriping();
     updateInfoSections(targetDegree);
 
-    
+
     if (targetDegree) {
         averageGradeDisplay.textContent = calculateAverageGrade(targetDegree);
     } else {
         averageGradeDisplay.textContent = '–';
     }
 
-    
+
     if (targetDegree) {
         updateRowColors(targetDegree);
     }
 
-    
+
     updatePrognosis(targetDegree);
     updateTargetDegreeMarquee();
 }
@@ -1414,7 +1440,7 @@ function updatePrognosis(targetDegree) {
     }
 
     const result = checkDegreeRequirements(targetDegree);
-    const otherDegrees = getOtherAchievableDegrees(targetDegree);
+    const otherDegrees = getOtherAchievableDegrees(targetDegree, result);
 
     if (result.status === 'incomplete') {
         prognosisCard.style.display = 'none';

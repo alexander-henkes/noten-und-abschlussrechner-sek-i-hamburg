@@ -54,7 +54,6 @@ Das Tool befindet sich in der <u>Testphase</u>.
 
 ```text
 noten-und-abschlussrechner-sek-i-hamburg
-├── Behördendokumente
 ├── assets
 │   ├── fonts
 │   │   ├── OFL.txt

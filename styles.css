@@ -1001,7 +1001,7 @@ main > .card:nth-of-type(6) { --card-stagger: 5; }
     transition: transform 0.3s;
 }
 
-.info-card details[open] summary::before {
+.info-card details[open] > summary::before {
     transform: rotate(90deg);
 }
 
@@ -1035,7 +1035,7 @@ main > .card:nth-of-type(6) { --card-stagger: 5; }
     margin: 8px 0 2px;
 }
 
-.info-card details[open] .info-content {
+.info-card details[open] > .info-content {
     margin-top: 20px;
 }
 
@@ -1086,6 +1086,10 @@ main > .card:nth-of-type(6) { --card-stagger: 5; }
     border-radius: var(--border-radius);
     border-left: 4px solid var(--accent-color);
     color: var(--text-muted);
+}
+
+.info-note ul {
+    margin: 0;
 }
 
 .text-danger {
@@ -1158,6 +1162,10 @@ footer .badges .cc-license-badge {
     height: 40px;
     width: auto;
     opacity: 0.8;
+}
+
+footer .badges .cc-license-badge {
+    margin-top: 8px;
 }
 
 

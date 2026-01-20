@@ -54,6 +54,7 @@ Das Tool befindet sich in der <u>Testphase</u>.
 
 ```text
 noten-und-abschlussrechner-sek-i-hamburg
+├── Behördendokumente
 ├── assets
 │   ├── fonts
 │   │   ├── OFL.txt
@@ -61,6 +62,7 @@ noten-und-abschlussrechner-sek-i-hamburg
 │   │   └── source-sans-3-variable.woff2
 │   └── images
 │       ├── background.svg
+│       ├── containership.svg
 │       ├── CC-BY-NC-SA.png
 │       ├── flag_de.svg
 │       ├── flag_en.svg

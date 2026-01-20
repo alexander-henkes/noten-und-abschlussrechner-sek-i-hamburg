@@ -131,7 +131,7 @@ const TRANSLATIONS = {
         'import.invalidJson': 'Die Importdatei ist ungültig.',
         'import.invalidSubjects': 'Die Importdatei enthält keine gültigen Fächer.',
         'notice.title': 'Hinweise zur Nutzung',
-        'notice.text': '<ul class="notice-list"><li><strong>Datenschutzkonform:</strong> Alle Notenberechnungen werden <u>ausschließlich</u> lokal, in ihrem Browser durchgeführt.</li><li><strong>Testphase:</strong> Die Anwendung befindet sich zurzeit in der Testphase. Vereinzelte Fehler in der Berechnungslogik sind nicht ausgeschlossen. <u>Alle Angaben sind ohne Gewähr.</u> Verbindliche Auskünfte erteilen die Schulen.</li></ul>',
+        'notice.text': '<ul class="notice-list"><li><strong>Datenschutzkonform:</strong> Alle eingegebenen Daten werden ausschließlich lokal, direkt in Ihrem Browser verarbeitet.</li><li><strong>Testphase:</strong> Vereinzelte Fehler in der Berechnungslogik sind nicht ausgeschlossen. Alle Angaben sind ohne Gewähr. Verbindliche Auskünfte erteilen die Schulen.</li></ul>',
         'notice.cta': 'Verstanden!'
     },
     en: {

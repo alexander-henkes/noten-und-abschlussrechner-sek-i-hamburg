@@ -73,7 +73,7 @@ body.modal-open {
     z-index: 2000;
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transition: opacity 0.2s ease;
 }
 
 .notice-modal.is-hidden {
@@ -127,7 +127,7 @@ body.modal-open {
 }
 
 .beta-banner {
-    position: fixed;
+    position: absolute;
     top: 18px;
     left: -56px;
     padding: 6px 64px;
@@ -141,6 +141,8 @@ body.modal-open {
     z-index: 900;
     pointer-events: none;
     opacity: 0;
+    visibility: visible;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
     animation: betaStaggerIn 0.6s ease forwards, betaPulse 0.8s ease 1;
     animation-delay: calc(var(--beta-stagger, 10) * 120ms), calc((var(--beta-stagger, 10) * 120ms) + 0.6s);
 }
@@ -1094,7 +1096,7 @@ main > .card:nth-of-type(6) { --card-stagger: 5; }
 footer {
     text-align: center;
     color: rgba(255, 255, 255, 0.7);
-    padding: 20px;
+    padding: 0 20px 20px;
     font-size: 0.9rem;
     opacity: 0;
     transform: translateY(12px);
@@ -1111,6 +1113,10 @@ footer a:hover {
     color: white;
 }
 
+footer p {
+    margin: 0 0 36px;
+}
+
 .footer-break {
     display: inline;
 }
@@ -1125,7 +1131,8 @@ footer .badges {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
+    row-gap: 2px;
     margin-bottom: 15px;
 }
 
@@ -1136,6 +1143,15 @@ footer .badges img {
 .badge-break {
     flex-basis: 100%;
     height: 0;
+}
+
+.badge-break-desktop {
+    flex-basis: 100%;
+    height: 0;
+}
+
+.badge-break:not(.badge-break-desktop) + a {
+    margin-top: 6px;
 }
 
 footer .badges .cc-license-badge {
@@ -1190,6 +1206,10 @@ footer .badges .cc-license-badge {
 
     .footer-break {
         display: block;
+    }
+
+    .badge-break-desktop {
+        display: none;
     }
 }
 

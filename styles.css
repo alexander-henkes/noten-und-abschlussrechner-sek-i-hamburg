@@ -39,6 +39,7 @@
 
 body {
     font-family: var(--font-main);
+    position: relative;
     background-color: #001f3f;
     background-image: radial-gradient(
         ellipse at 50% 100%,
@@ -240,7 +241,7 @@ body.modal-open {
 }
 
 .silhouette {
-    position: fixed;
+    position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
@@ -259,7 +260,7 @@ body.modal-open {
 }
 
 .plane {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: -20%;
     width: 80px;
@@ -271,12 +272,37 @@ body.modal-open {
     animation: planeFly 84s linear infinite;
 }
 
+.containership {
+    position: absolute;
+    --ship-y: 0%;
+    bottom: 0;
+    right: 0;
+    width: 1125px;
+    height: 642px;
+    background: url('assets/images/containership.svg') no-repeat center bottom/contain;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 0;
+    animation: shipSail 384s linear infinite;
+    animation-delay: 5s;
+    animation-fill-mode: backwards;
+}
+
 @keyframes planeFly {
     0% {
         transform: translate(0, -50%);
     }
     100% {
         transform: translate(140vw, -70vh);
+    }
+}
+
+@keyframes shipSail {
+    0% {
+        transform: translate(100%, var(--ship-y));
+    }
+    100% {
+        transform: translate(-160vw, var(--ship-y));
     }
 }
 
@@ -289,6 +315,15 @@ body.modal-open {
         width: 60px;
         height: 45px;
         top: 50%;
+    }
+
+    .containership {
+        width: 1125px;
+        height: 642px;
+        bottom: 0;
+        right: 0;
+        --ship-y: 0%;
+        display: none;
     }
 }
 
@@ -1168,6 +1203,10 @@ footer .badges .cc-license-badge {
     margin-top: 8px;
 }
 
+footer .badges a:last-child {
+    margin-bottom: 120px;
+}
+
 
 @media (max-width: 768px) {
     body {
@@ -1188,6 +1227,10 @@ footer .badges .cc-license-badge {
 
     header .subtitle {
         font-size: 1rem;
+    }
+
+    footer .badges a:last-child {
+        margin-bottom: 0;
     }
 
     .card {

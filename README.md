@@ -60,17 +60,17 @@ noten-und-abschlussrechner-sek-i-hamburg
 │   │   ├── source-sans-3-variable.ttf
 │   │   └── source-sans-3-variable.woff2
 │   └── images
-│       ├── background.svg
-│       ├── containership.svg
-│       ├── CC-BY-NC-SA.png
+│       ├── cc-by-nc-sa.svg
 │       ├── flag_de.svg
 │       ├── flag_en.svg
-│       └── plane.svg
+│       ├── harbour.svg
+│       ├── plane.svg
+│       └── ship.svg
 ├── index.html
 ├── script.js
 ├── styles.css
-├── README.md
-└── LICENSE
+├── LICENSE
+└── README.md
 ```
 
 ## Installation

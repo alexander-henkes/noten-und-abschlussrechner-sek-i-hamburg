@@ -390,6 +390,7 @@ const targetDegreeMarqueeInner = targetDegreeMarquee?.querySelector('.select-mar
 const infoSections = document.querySelectorAll('.info-section');
 const noticeModal = document.getElementById('notice-modal');
 const noticeAcceptBtn = document.getElementById('notice-accept');
+const containership = document.querySelector('.containership');
 
 const NOTICE_STORAGE_KEY = 'noticeAccepted';
 const NOTICE_DISMISS_DURATION_MS = 24 * 60 * 60 * 1000;
@@ -433,6 +434,7 @@ function init() {
     setupNoticeModal();
     hideLanguageHintAfterDelay();
     updateLanguageSwitcherVisibility();
+    if (containership) containership.style.display = Math.random() < 0.05 ? '' : 'none';
 }
 
 function hasAcceptedNotice() {

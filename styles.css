@@ -28,6 +28,7 @@
     --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
 
     --font-main: 'Source Sans 3', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --ship-filter: invert(11%) sepia(37%) saturate(141%) hue-rotate(181deg) brightness(97%) contrast(88%);
 }
 
 
@@ -129,7 +130,22 @@ body.modal-open {
 
 .beta-banner {
     position: absolute;
-    top: 18px;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 160px;
+    overflow: hidden;
+    z-index: 900;
+    pointer-events: none;
+    opacity: 1;
+    visibility: visible;
+    transition: none;
+    animation: none;
+}
+
+.beta-banner-text {
+    position: absolute;
+    top: 24px;
     left: -56px;
     padding: 6px 64px;
     background: white;
@@ -139,12 +155,7 @@ body.modal-open {
     text-transform: uppercase;
     transform: rotate(-45deg) translateY(0);
     box-shadow: var(--shadow);
-    z-index: 900;
-    pointer-events: none;
-    opacity: 1;
-    visibility: visible;
-    transition: none;
-    animation: none;
+    text-indent: 8px;
 }
 
 .language-switcher {
@@ -276,10 +287,11 @@ body.modal-open {
     --ship-y: 0%;
     bottom: 0;
     right: 0;
-    width: 1125px;
-    height: 642px;
-    background: url('assets/images/containership.svg') no-repeat center bottom/contain;
+    width: 633px;
+    height: 362px;
+    background: url('assets/images/ship.svg') no-repeat center bottom/contain;
     opacity: 1;
+    filter: var(--ship-filter);
     pointer-events: none;
     z-index: 0;
     animation: shipSail 384s linear infinite;
@@ -317,8 +329,8 @@ body.modal-open {
     }
 
     .containership {
-        width: 1125px;
-        height: 642px;
+        width: 633px;
+        height: 362px;
         bottom: 0;
         right: 0;
         --ship-y: 0%;
@@ -897,6 +909,7 @@ main > .card:nth-of-type(6) { --card-stagger: 5; }
     padding: 20px;
     border-radius: var(--border-radius);
     background: var(--bg-light);
+    color: var(--text-muted);
 }
 
 .prognosis-placeholder {
@@ -1032,7 +1045,7 @@ main > .card:nth-of-type(6) { --card-stagger: 5; }
     content: '▶';
     font-size: 0.8rem;
     color: var(--primary-color);
-    transition: transform 0.3s;
+    transition: transform 0.45s ease;
 }
 
 .info-card details[open] > summary::before {
@@ -1066,11 +1079,33 @@ main > .card:nth-of-type(6) { --card-stagger: 5; }
 }
 
 .info-card .info-section-body {
+    display: block;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin: 0;
+    transition: max-height 0.45s ease, opacity 0.35s ease, margin 0.45s ease;
+}
+
+.info-card details[open] > .info-section-body {
+    max-height: 480px;
+    opacity: 1;
     margin: 8px 0 2px;
 }
 
-.info-card details[open] > .info-content {
-    margin-top: 20px;
+.info-card > details > .info-content {
+    display: block;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding-top: 0;
+    transition: max-height 0.6s ease, opacity 0.4s ease, padding-top 0.6s ease;
+}
+
+.info-card > details[open] > .info-content {
+    max-height: 2000px;
+    opacity: 1;
+    padding-top: 20px;
 }
 
 .info-content p {

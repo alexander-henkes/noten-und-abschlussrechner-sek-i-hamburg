@@ -57,6 +57,9 @@ noten-und-abschlussrechner-sek-i-hamburg
 ├── .github
 │   └── workflows
 │       └── docker-publish.yml
+├── docker
+│   ├── Dockerfile
+│   └── docker-compose.yml
 ├── assets
 │   ├── fonts
 │   │   ├── OFL.txt
@@ -72,8 +75,6 @@ noten-und-abschlussrechner-sek-i-hamburg
 ├── index.html
 ├── script.js
 ├── styles.css
-├── Dockerfile
-├── docker-compose.yml
 ├── LICENSE
 └── README.md
 ```
@@ -95,9 +96,9 @@ noten-und-abschlussrechner-sek-i-hamburg
 
 ### Option 3: Docker-Container
 
-1. Starten Sie den Container ([docker-compose.yml](docker-compose.yml)):
+1. Starten Sie den Container ([docker/docker-compose.yml](docker/docker-compose.yml)):
    ```bash
-   docker compose up -d
+   docker compose -f docker/docker-compose.yml up -d
    ```
 2. Öffnen Sie die Anwendung im Browser unter `http://localhost:8080`.
 

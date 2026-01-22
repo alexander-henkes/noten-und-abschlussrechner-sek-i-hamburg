@@ -1,0 +1,29 @@
+services:
+
+  noten-und-abschlussrechner-sek-i-hamburg:
+    image: ghcr.io/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg:latest
+    pull_policy: always
+    container_name: noten-und-abschlussrechner-sek-i-hamburg
+    ports:
+      - "8080:80"
+    networks:
+      noten-und-abschlussrechner-sek-i-hamburg:
+        ipv4_address: "172.28.1.2"
+    restart: unless-stopped
+    read_only: true
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:80/ > /dev/null || exit 1"]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  noten-und-abschlussrechner-sek-i-hamburg:
+    ipam:
+      config:
+        - subnet: "172.28.1.0/16"

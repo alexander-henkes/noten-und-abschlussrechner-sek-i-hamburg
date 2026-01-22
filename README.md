@@ -88,6 +88,14 @@ noten-und-abschlussrechner-sek-i-hamburg
    ```
 2. Öffnen Sie die Datei `index.html` in einem beliebigen Browser.
 
+### Option 3: Docker-Container
+
+1. Starten Sie den Container ([docker-compose.yml](docker-compose.yml)):
+   ```bash
+   docker compose up -d
+   ```
+2. Öffnen Sie die Anwendung im Browser unter `http://localhost:8080`.
+
 ## Nutzung/Verwendung
 
 1. **Abschluss:** Wählen Sie zuerst den angestrebten Abschluss.

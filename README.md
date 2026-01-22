@@ -54,6 +54,9 @@ Das Tool befindet sich in der <u>Testphase</u>.
 
 ```text
 noten-und-abschlussrechner-sek-i-hamburg
+├── .github
+│   └── workflows
+│       └── docker-publish.yml
 ├── assets
 │   ├── fonts
 │   │   ├── OFL.txt
@@ -69,6 +72,8 @@ noten-und-abschlussrechner-sek-i-hamburg
 ├── index.html
 ├── script.js
 ├── styles.css
+├── Dockerfile
+├── docker-compose.yml
 ├── LICENSE
 └── README.md
 ```

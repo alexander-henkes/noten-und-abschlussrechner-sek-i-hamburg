@@ -1122,6 +1122,14 @@ main > .card:nth-of-type(6) { --card-stagger: 5; }
     font-size: 0.82rem;
     color: var(--text-muted);
     letter-spacing: 0.01em;
+    text-align: right;
+}
+
+.info-content p.info-reference a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
 }
 
 .info-content p + ul {

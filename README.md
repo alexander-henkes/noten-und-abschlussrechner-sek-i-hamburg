@@ -56,6 +56,7 @@ Das Tool befindet sich in der <u>Testphase</u>.
 noten-und-abschlussrechner-sek-i-hamburg
 ├── .github
 │   └── workflows
+│       ├── broken-link-checker.yml
 │       └── docker-publish.yml
 ├── docker
 │   ├── Dockerfile
@@ -72,6 +73,11 @@ noten-und-abschlussrechner-sek-i-hamburg
 │       ├── harbour.svg
 │       ├── plane.svg
 │       └── ship.svg
+├── documents
+│   ├── apo-grundstgy-hamburg-§29.pdf
+│   ├── apo-grundstgy-hamburg-§29a.pdf
+│   ├── apo-grundstgy-hamburg-§30.pdf
+│   └── apo-grundstgy-hamburg-§31.pdf
 ├── index.html
 ├── script.js
 ├── styles.css

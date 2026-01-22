@@ -1237,6 +1237,13 @@ footer .badges .cc-license-badge {
     margin-top: 8px;
 }
 
+footer .badges .cc-license-badge--docker {
+    margin-left: 10px;
+    height: 34px;
+    position: relative;
+    top: 10px;
+}
+
 footer .badges a:last-child {
     margin-bottom: 120px;
 }

@@ -58,9 +58,6 @@ noten-und-abschlussrechner-sek-i-hamburg
 │   └── workflows
 │       ├── broken-link-checker.yml
 │       └── docker-publish.yml
-├── docker
-│   ├── Dockerfile
-│   └── docker-compose.yml
 ├── assets
 │   ├── fonts
 │   │   ├── OFL.txt
@@ -72,7 +69,11 @@ noten-und-abschlussrechner-sek-i-hamburg
 │       ├── flag_en.svg
 │       ├── harbour.svg
 │       ├── plane.svg
+│       ├── selfhost.svg
 │       └── ship.svg
+├── docker
+│   ├── Dockerfile
+│   └── docker-compose.yml
 ├── documents
 │   ├── apo-grundstgy-hamburg-§29.pdf
 │   ├── apo-grundstgy-hamburg-§29a.pdf
@@ -81,8 +82,8 @@ noten-und-abschlussrechner-sek-i-hamburg
 ├── index.html
 ├── script.js
 ├── styles.css
-├── LICENSE
-└── README.md
+├── README.md
+└── LICENSE
 ```
 
 ## Installation

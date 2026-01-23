@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   build-and-push:
+    if: github.event_name == 'release' && github.event.action == 'published'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,7 +25,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Extract release tag
         id: release_tag
-        run: echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+        run: echo "tag=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
       - name: Build and push
         uses: docker/build-push-action@v6
         with:

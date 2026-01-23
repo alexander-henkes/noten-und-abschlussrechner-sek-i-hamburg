@@ -58,6 +58,7 @@ noten-und-abschlussrechner-sek-i-hamburg
 │   └── workflows
 │       ├── broken-link-checker.yml
 │       └── docker-publish.yml
+├── .gitignore
 ├── assets
 │   ├── fonts
 │   │   ├── OFL.txt
@@ -75,14 +76,16 @@ noten-und-abschlussrechner-sek-i-hamburg
 │   ├── Dockerfile
 │   └── docker-compose.yml
 ├── documents
+│   ├── apo-grundstgy-hamburg-§2.pdf
 │   ├── apo-grundstgy-hamburg-§29.pdf
 │   ├── apo-grundstgy-hamburg-§29a.pdf
 │   ├── apo-grundstgy-hamburg-§30.pdf
-│   └── apo-grundstgy-hamburg-§31.pdf
+│   ├── apo-grundstgy-hamburg-§31.pdf
+│   └── apo-grundstgy-hamburg-anlage-1.pdf
 ├── index.html
+├── README.md
 ├── script.js
 ├── styles.css
-├── README.md
 └── LICENSE
 ```
 

@@ -54,38 +54,44 @@ Das Tool befindet sich in der <u>Testphase</u>.
 
 ```text
 noten-und-abschlussrechner-sek-i-hamburg
+├── .gitignore
 ├── .github
 │   └── workflows
 │       ├── broken-link-checker.yml
 │       └── docker-publish.yml
-├── .gitignore
 ├── assets
 │   ├── fonts
-│   │   ├── OFL.txt
-│   │   ├── source-sans-3-variable.ttf
-│   │   └── source-sans-3-variable.woff2
+│   │   └── source-sans-3
+│   │       ├── OFL.txt
+│   │       ├── source-sans-3-variable.ttf
+│   │       └── source-sans-3-variable.woff2
 │   └── images
-│       ├── cc-by-nc-sa.svg
-│       ├── flag_de.svg
-│       ├── flag_en.svg
-│       ├── harbour.svg
-│       ├── plane.svg
-│       ├── selfhost.svg
-│       └── ship.svg
+│       ├── flags
+│       │   ├── flag_de.svg
+│       │   └── flag_en.svg
+│       ├── background
+│       │   ├── harbour.svg
+│       │   ├── plane.svg
+│       │   └── ship.svg
+│       ├── badges
+│       │   ├── cc-by-nc-sa.svg
+│       │   └── selfhost.svg
 ├── docker
 │   ├── Dockerfile
 │   └── docker-compose.yml
 ├── documents
-│   ├── apo-grundstgy-hamburg-§2.pdf
-│   ├── apo-grundstgy-hamburg-§29.pdf
-│   ├── apo-grundstgy-hamburg-§29a.pdf
-│   ├── apo-grundstgy-hamburg-§30.pdf
-│   ├── apo-grundstgy-hamburg-§31.pdf
-│   └── apo-grundstgy-hamburg-anlage-1.pdf
+│   ├── anlagen
+│   │   └── apo-grundstgy-hamburg-anlage-1.pdf
+│   └── paragraphen
+│       ├── apo-grundstgy-hamburg-§2.pdf
+│       ├── apo-grundstgy-hamburg-§29.pdf
+│       ├── apo-grundstgy-hamburg-§29a.pdf
+│       ├── apo-grundstgy-hamburg-§30.pdf
+│       └── apo-grundstgy-hamburg-§31.pdf
 ├── index.html
-├── README.md
 ├── script.js
 ├── styles.css
+├── README.md
 └── LICENSE
 ```
 
@@ -123,7 +129,7 @@ noten-und-abschlussrechner-sek-i-hamburg
 - **Statisch**: Reines `HTML/JS/CSS`, ohne Backend-Komponenten.
 - **Lokal & sicher**: Alle Berechnungen laufen im Browser.
 - **Abhängigkeiten**: Keine externen JavaScript-Bibliotheken notwendig.
-- **Schriftart**: Source Sans 3 als Variable Font lokal eingebunden (`assets/fonts`, SIL OFL 1.1).
+- **Schriftart**: Source Sans 3 als Variable Font lokal eingebunden (`assets/fonts/source-sans-3`, SIL OFL 1.1).
 
 ## Datenschutz
 

@@ -33,6 +33,7 @@ const TRANSLATIONS = {
         'section.calculator': 'Durchschnittsrechner <sup>1</sup>',
         'section.prognosis': 'Abschlussprognose',
         'section.legend': 'Farben / Legende',
+        'section.legend.a11y': 'Symbole / Legende',
         'section.info': 'Abschlusskriterien',
         'select.placeholder': 'Bitte wählen Sie einen Abschluss ...',
         'select.esa': 'ESA (Erster allgemeinbildender Schulabschluss)',
@@ -70,6 +71,8 @@ const TRANSLATIONS = {
         'language.label': 'Sprache wählen',
         'language.de': 'Deutsch',
         'language.en': 'Englisch',
+        'a11y.label': 'Barrierefreier Modus',
+        'a11y.title': 'Schwarz-Weiss-Ansicht umschalten',
         'subject.german': 'Deutsch',
         'subject.mathematics': 'Mathematik',
         'subject.english': 'Englisch',
@@ -139,6 +142,7 @@ const TRANSLATIONS = {
         'section.calculator': 'Average Grade Calculator <sup>1</sup>',
         'section.prognosis': 'Qualification Forecast',
         'section.legend': 'Colors / Legend',
+        'section.legend.a11y': 'Symbols / Legend',
         'section.info': 'Qualification Criteria',
         'select.placeholder': 'Please select a target qualification ...',
         'select.esa': 'ESA (First General School Certificate)',
@@ -176,6 +180,8 @@ const TRANSLATIONS = {
         'language.label': 'Select language',
         'language.de': 'German',
         'language.en': 'English',
+        'a11y.label': 'Accessibility mode',
+        'a11y.title': 'Toggle black-and-white view',
         'subject.german': 'German',
         'subject.mathematics': 'Mathematics',
         'subject.english': 'English',
@@ -242,6 +248,55 @@ const TRANSLATIONS = {
 };
 
 let currentLanguage = 'de';
+let allowLanguageUrlUpdates = false;
+let allowA11yUrlUpdates = false;
+let wasA11yBeforePrint = false;
+
+function getLanguageFromUrl() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const lang = params.get('lang');
+        if (!lang) return null;
+        const normalized = lang.trim().toLowerCase();
+        return TRANSLATIONS[normalized] ? normalized : null;
+    } catch (error) {
+        return null;
+    }
+}
+
+function getA11yFromUrl() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const raw = params.get('a11y');
+        if (!raw) return null;
+        const normalized = raw.trim().toLowerCase();
+        if (['1', 'true', 'yes', 'on'].includes(normalized)) return true;
+        if (['0', 'false', 'no', 'off'].includes(normalized)) return false;
+        return null;
+    } catch (error) {
+        return null;
+    }
+}
+
+function updateLanguageUrl(lang) {
+    try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', lang);
+        window.history.replaceState(null, '', url);
+    } catch (error) {
+        return;
+    }
+}
+
+function updateA11yUrl(enabled) {
+    try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('a11y', enabled ? 'true' : 'false');
+        window.history.replaceState(null, '', url);
+    } catch (error) {
+        return;
+    }
+}
 
 function t(key, vars = {}) {
     const dictionary = TRANSLATIONS[currentLanguage] || TRANSLATIONS.de;
@@ -382,6 +437,7 @@ const printPrognosis = document.getElementById('print-prognosis');
 const printAverage = document.getElementById('print-average');
 const printAction = document.querySelector('.print-action');
 const languageButtons = document.querySelectorAll('.lang-btn');
+const a11yToggleBtn = document.querySelector('.a11y-btn');
 const languageHint = document.querySelector('.language-hint');
 const languageSwitcher = document.querySelector('.language-switcher');
 const languageHintArrow = document.querySelector('.language-hint-arrow');
@@ -394,12 +450,17 @@ const containership = document.querySelector('.containership');
 
 const NOTICE_STORAGE_KEY = 'noticeAccepted';
 const NOTICE_DISMISS_DURATION_MS = 24 * 60 * 60 * 1000;
+const A11Y_STORAGE_KEY = 'a11yMode';
 
 
 
 
 
 function init() {
+    const initialLanguage = getLanguageFromUrl();
+    const a11yFromUrl = getA11yFromUrl();
+    const storedA11y = getStoredA11yMode();
+    const shouldEnableA11y = a11yFromUrl ?? storedA11y;
     DEFAULT_SUBJECTS.forEach(subject => {
         addSubject(
             t(subject.nameKey),
@@ -412,8 +473,11 @@ function init() {
 
     targetDegreeSelect.addEventListener('change', updateAll);
     addSubjectBtn.addEventListener('click', handleAddSubject);
-    newSubjectInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleAddSubject();
+    newSubjectInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleAddSubject();
+        }
     });
     exportBtn?.addEventListener('click', handleExport);
     importBtn?.addEventListener('click', () => importFileInput?.click());
@@ -424,13 +488,34 @@ function init() {
     });
     languageButtons.forEach(button => {
         button.addEventListener('click', () => setLanguage(button.dataset.lang));
+        button.addEventListener('keydown', (event) => {
+            if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+            event.preventDefault();
+            const buttons = Array.from(languageButtons);
+            const currentIndex = buttons.indexOf(button);
+            const direction = event.key === 'ArrowRight' ? 1 : -1;
+            const nextIndex = (currentIndex + direction + buttons.length) % buttons.length;
+            const nextButton = buttons[nextIndex];
+            if (!nextButton) return;
+            setLanguage(nextButton.dataset.lang);
+            nextButton.focus();
+        });
+    });
+    a11yToggleBtn?.addEventListener('click', () => {
+        const isEnabled = document.body.classList.contains('a11y-mode');
+        setA11yMode(!isEnabled, { persist: true });
     });
     window.addEventListener('resize', positionLanguageHint);
     window.addEventListener('resize', updateTargetDegreeMarquee);
     window.addEventListener('scroll', updateLanguageSwitcherVisibility, { passive: true });
     window.addEventListener('beforeprint', buildPrintSummary);
+    window.addEventListener('beforeprint', handleBeforePrint);
+    window.addEventListener('afterprint', handleAfterPrint);
 
-    setLanguage('de');
+    setLanguage(initialLanguage || 'de', { updateUrl: Boolean(initialLanguage) });
+    allowLanguageUrlUpdates = true;
+    setA11yMode(shouldEnableA11y, { updateUrl: a11yFromUrl !== null });
+    allowA11yUrlUpdates = true;
     setupNoticeModal();
     hideLanguageHintAfterDelay();
     updateLanguageSwitcherVisibility();
@@ -632,9 +717,10 @@ function removeSubject(id) {
 function handleAddSubject() {
     const name = newSubjectInput.value.trim();
     if (name) {
-        addSubject(name, false);
+        const subject = addSubject(name, false);
         newSubjectInput.value = '';
         updateAll();
+        focusSubjectGradeSelect(subject.id);
     }
 }
 
@@ -642,6 +728,7 @@ function handleExport() {
     const payload = {
         version: 1,
         language: currentLanguage,
+        a11y: document.body.classList.contains('a11y-mode'),
         targetDegree: targetDegreeSelect.value || '',
         subjects: subjects.map(subject => ({
             name: subject.name,
@@ -719,15 +806,24 @@ function applyImportedData(data) {
     const importedTarget = typeof data.targetDegree === 'string' ? data.targetDegree : '';
     targetDegreeSelect.value = DEGREE_CONFIG[importedTarget] ? importedTarget : '';
 
+    const importedA11y = typeof data.a11y === 'boolean'
+        ? data.a11y
+        : (typeof data.a11y === 'string' ? data.a11y.toLowerCase() === 'true' : null);
+
     if (importedLanguage && TRANSLATIONS[importedLanguage]) {
         setLanguage(importedLanguage);
     } else {
         updateAll();
     }
+
+    if (importedA11y !== null) {
+        setA11yMode(importedA11y, { updateUrl: false, persist: false });
+    }
 }
 
-function setLanguage(lang) {
+function setLanguage(lang, options = {}) {
     if (!lang || !TRANSLATIONS[lang]) return;
+    const { updateUrl = allowLanguageUrlUpdates } = options;
 
     currentLanguage = lang;
     document.documentElement.setAttribute('lang', lang);
@@ -738,7 +834,9 @@ function setLanguage(lang) {
     });
     applyTranslations(lang);
     updateSubjectNames();
+    updateLegendHeading();
     updateAll();
+    if (updateUrl) updateLanguageUrl(lang);
 }
 
 function applyTranslations(lang) {
@@ -795,6 +893,96 @@ function updateSubjectNames() {
     });
 }
 
+function updateLegendHeading() {
+    const legendHeading = document.querySelector('[data-i18n="section.legend"]');
+    if (!legendHeading) return;
+    const isA11y = document.body.classList.contains('a11y-mode');
+    legendHeading.textContent = isA11y ? t('section.legend.a11y') : t('section.legend');
+}
+
+function getStoredA11yMode() {
+    try {
+        return localStorage.getItem(A11Y_STORAGE_KEY) === 'true';
+    } catch (error) {
+        return false;
+    }
+}
+
+function setA11yMode(enabled, options = {}) {
+    const { updateUrl = allowA11yUrlUpdates, persist = false } = options;
+    const wasA11y = document.body.classList.contains('a11y-mode');
+    document.body.classList.toggle('a11y-mode', enabled);
+    if (wasA11y !== enabled) {
+        document.body.classList.add('no-card-anim');
+        document.body.classList.add('a11y-transition');
+        window.setTimeout(() => {
+            document.body.classList.remove('a11y-transition');
+        }, 350);
+    }
+    if (a11yToggleBtn) {
+        a11yToggleBtn.classList.toggle('is-active', enabled);
+        a11yToggleBtn.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+    }
+    if (persist) {
+        try {
+            localStorage.setItem(A11Y_STORAGE_KEY, enabled ? 'true' : 'false');
+        } catch (error) {
+            return;
+        }
+    }
+    if (updateUrl) {
+        updateA11yUrl(enabled);
+    }
+    updateLegendHeading();
+}
+
+function handleBeforePrint() {
+    wasA11yBeforePrint = document.body.classList.contains('a11y-mode');
+    if (wasA11yBeforePrint) {
+        setA11yMode(false, { updateUrl: false, persist: false });
+    }
+}
+
+function handleAfterPrint() {
+    if (wasA11yBeforePrint) {
+        setA11yMode(true, { updateUrl: false, persist: false });
+        wasA11yBeforePrint = false;
+    }
+}
+
+function focusSubjectGradeSelect(subjectId) {
+    const row = document.getElementById(`row-${subjectId}`);
+    const select = row?.querySelector('.grade-select');
+    if (select) {
+        select.focus();
+    }
+}
+
+function focusNextGradeSelect(row) {
+    let next = row?.nextElementSibling;
+    while (next && !next.classList.contains('grade-row')) {
+        next = next.nextElementSibling;
+    }
+    const nextSelect = next?.querySelector('.grade-select');
+    if (nextSelect) {
+        nextSelect.focus();
+        return;
+    }
+    if (newSubjectInput) newSubjectInput.focus();
+}
+
+function focusPreviousGradeSelect(row) {
+    let prev = row?.previousElementSibling;
+    while (prev && !prev.classList.contains('grade-row')) {
+        prev = prev.previousElementSibling;
+    }
+    const prevSelect = prev?.querySelector('.grade-select');
+    if (prevSelect) {
+        prevSelect.focus();
+        return;
+    }
+    if (newSubjectInput) newSubjectInput.focus();
+}
 
 
 
@@ -828,15 +1016,44 @@ function renderSubjectRow(subject) {
 
     gradesBody.appendChild(row);
 
-    row.querySelector('.grade-select').addEventListener('change', (e) => {
+    const gradeSelect = row.querySelector('.grade-select');
+    gradeSelect.addEventListener('change', (e) => {
         subject.grade = e.target.value !== '' ? e.target.value : null;
         updateAll();
+    });
+    gradeSelect.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            focusNextGradeSelect(row);
+        }
+        if (event.key === 'ArrowUp' && event.altKey) {
+            event.preventDefault();
+            focusPreviousGradeSelect(row);
+        }
+        if (event.key === 'ArrowDown' && event.altKey) {
+            event.preventDefault();
+            focusNextGradeSelect(row);
+        }
     });
 
     const deleteBtn = row.querySelector('.delete-btn');
     if (deleteBtn) {
         deleteBtn.addEventListener('click', () => {
+            const nextFocusable = row.nextElementSibling?.querySelector('.grade-select')
+                || row.previousElementSibling?.querySelector('.grade-select')
+                || newSubjectInput;
             removeSubject(subject.id);
+            nextFocusable?.focus?.();
+        });
+        deleteBtn.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowUp' && event.altKey) {
+                event.preventDefault();
+                focusPreviousGradeSelect(row);
+            }
+            if (event.key === 'ArrowDown' && event.altKey) {
+                event.preventDefault();
+                focusNextGradeSelect(row);
+            }
         });
     }
 }

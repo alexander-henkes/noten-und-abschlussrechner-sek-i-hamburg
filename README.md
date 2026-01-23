@@ -49,6 +49,7 @@ Das Tool befindet sich in der <u>Testphase</u>.
 - **Import/Export**: Noteneingaben als JSON speichern/herunterladen und hochladen.
 - **Druckansicht**: Druckfähige Zusammenfassung der Noten und Prognose.
 - **Sprachumschaltung**: Deutsch und Englisch.
+- **Barrierefreier Modus**: Schwarz-Weiß-Layout mit reduzierten visuellen Effekten.
 
 ## Verzeichnisstruktur
 
@@ -67,6 +68,7 @@ noten-und-abschlussrechner-sek-i-hamburg
 │   │       └── source-sans-3-variable.woff2
 │   └── images
 │       ├── flags
+│       │   ├── accessibility.svg
 │       │   ├── flag_de.svg
 │       │   └── flag_en.svg
 │       ├── background

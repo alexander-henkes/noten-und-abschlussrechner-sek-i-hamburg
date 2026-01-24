@@ -10,8 +10,6 @@ lokal im Browser und überträgt keine Daten an externe Server.
 <br>
 <div align="center">
 
-## DIREKT NUTZEN
-
 ### **[▶ Programm direkt auf <u>GitHub Pages</u> nutzen ◀](https://alexander-henkes.github.io/noten-und-abschlussrechner-sek-i-hamburg/)**
 
 [![GitHub](https://img.shields.io/badge/GitHub-alexander--henkes-blue?logo=github)](https://github.com/alexander-henkes)

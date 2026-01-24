@@ -35,12 +35,14 @@ const TRANSLATIONS = {
         'section.legend': 'Farben / Legende',
         'section.legend.a11y': 'Symbole / Legende',
         'section.info': 'Abschlusskriterien',
+        'select.label': 'Angestrebter Abschluss',
         'select.placeholder': 'Bitte wählen Sie einen Abschluss ...',
         'select.esa': 'ESA (Erster allgemeinbildender Schulabschluss)',
         'select.msa': 'MSA (Mittlerer Schulabschluss)',
         'select.sek2': 'SEK II (Versetzung in die Gymnasiale Oberstufe)',
         'table.subjects': 'Fächer',
         'table.grades': 'Noten <sup>2</sup>',
+        'addSubject.label': 'Weiteres Fach',
         'addSubject.placeholder': 'Weiteres Fach hinzufügen ...',
         'average.label': 'Notendurchschnitt:',
         'importExport.save': 'Noteneingabe speichern',
@@ -73,6 +75,7 @@ const TRANSLATIONS = {
         'language.en': 'Englisch',
         'a11y.label': 'Barrierefreier Modus',
         'a11y.title': 'Schwarz-Weiss-Ansicht umschalten',
+        'skip.main': 'Zum Inhalt springen',
         'subject.german': 'Deutsch',
         'subject.mathematics': 'Mathematik',
         'subject.english': 'Englisch',
@@ -144,12 +147,14 @@ const TRANSLATIONS = {
         'section.legend': 'Colors / Legend',
         'section.legend.a11y': 'Symbols / Legend',
         'section.info': 'Qualification Criteria',
+        'select.label': 'Target qualification',
         'select.placeholder': 'Please select a target qualification ...',
         'select.esa': 'ESA (First General School Certificate)',
         'select.msa': 'MSA (Intermediate School Certificate)',
         'select.sek2': 'Upper Secondary (transfer to upper secondary level)',
         'table.subjects': 'Subjects',
         'table.grades': 'Grades <sup>2</sup>',
+        'addSubject.label': 'Additional subject',
         'addSubject.placeholder': 'Add another subject ...',
         'average.label': 'Average grade:',
         'importExport.save': 'Save grade input',
@@ -182,6 +187,7 @@ const TRANSLATIONS = {
         'language.en': 'English',
         'a11y.label': 'Accessibility mode',
         'a11y.title': 'Toggle black-and-white view',
+        'skip.main': 'Skip to main content',
         'subject.german': 'German',
         'subject.mathematics': 'Mathematics',
         'subject.english': 'English',
@@ -446,6 +452,8 @@ const targetDegreeMarqueeInner = targetDegreeMarquee?.querySelector('.select-mar
 const infoSections = document.querySelectorAll('.info-section');
 const noticeModal = document.getElementById('notice-modal');
 const noticeAcceptBtn = document.getElementById('notice-accept');
+const mainContainer = document.querySelector('.container');
+const decorativeElements = document.querySelectorAll('.beta-banner, .language-switcher, .language-hint, .plane, .silhouette, .containership');
 const containership = document.querySelector('.containership');
 
 const NOTICE_STORAGE_KEY = 'noticeAccepted';
@@ -542,16 +550,71 @@ function persistNoticeAcceptance() {
     }
 }
 
+let lastFocusedElement = null;
+let modalKeydownHandler = null;
+
+function getFocusableElements(container) {
+    if (!container) return [];
+    return Array.from(container.querySelectorAll(
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    ));
+}
+
+function setModalState(isOpen) {
+    if (mainContainer) {
+        mainContainer.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+        if ('inert' in mainContainer) mainContainer.inert = isOpen;
+    }
+    decorativeElements.forEach((el) => {
+        if (!el) return;
+        el.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+        if ('inert' in el) el.inert = isOpen;
+    });
+}
+
 function openNoticeModal() {
     if (!noticeModal) return;
+    lastFocusedElement = document.activeElement;
     noticeModal.classList.remove('is-hidden');
     document.body.classList.add('modal-open');
+    setModalState(true);
+    if (!modalKeydownHandler) {
+        modalKeydownHandler = (event) => {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                closeNoticeModal();
+                return;
+            }
+            if (event.key !== 'Tab') return;
+            const focusable = getFocusableElements(noticeModal);
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        };
+        document.addEventListener('keydown', modalKeydownHandler);
+    }
 }
 
 function closeNoticeModal() {
     if (!noticeModal) return;
     noticeModal.classList.add('is-hidden');
     document.body.classList.remove('modal-open');
+    setModalState(false);
+    if (modalKeydownHandler) {
+        document.removeEventListener('keydown', modalKeydownHandler);
+        modalKeydownHandler = null;
+    }
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+        lastFocusedElement.focus();
+        lastFocusedElement = null;
+    }
 }
 
 function setupNoticeModal() {
@@ -702,6 +765,7 @@ function addSubject(name, isMain = false, grade = null, mainKey = null, nameKey 
     };
     subjects.push(subject);
     renderSubjectRow(subject);
+    updateGradesAria();
     return subject;
 }
 
@@ -710,6 +774,7 @@ function removeSubject(id) {
     if (index !== -1) {
         subjects.splice(index, 1);
         document.getElementById(`row-${id}`)?.remove();
+        updateGradesAria();
         updateAll();
     }
 }
@@ -991,6 +1056,7 @@ function renderSubjectRow(subject) {
     const row = document.createElement('div');
     row.className = 'grade-row';
     row.id = `row-${subject.id}`;
+    row.setAttribute('role', 'row');
 
     const subjectClass = subject.isMain ? 'subject-name main-subject' : 'subject-name';
     const requiredNote = subject.isMain ? `<span class="required-note">${t('label.required')}</span>` : '';
@@ -1004,14 +1070,18 @@ function renderSubjectRow(subject) {
         : `<button class="delete-btn" data-id="${subject.id}" title="${t('actions.removeSubject')}">−</button>`;
 
     row.innerHTML = `
-        <span class="${subjectClass}">
+        <span class="${subjectClass}" role="cell" aria-colindex="1">
             <span class="subject-name-text">${subject.name}</span>${requiredNote}
         </span>
-        <select class="grade-select" data-id="${subject.id}">
-            <option value="">--</option>
-            ${gradeOptions}
-        </select>
-        ${deleteButton}
+        <span class="grade-cell grade-cell-grade" role="cell" aria-colindex="2">
+            <select class="grade-select" data-id="${subject.id}">
+                <option value="">--</option>
+                ${gradeOptions}
+            </select>
+        </span>
+        <span class="grade-cell grade-cell-action" role="cell" aria-colindex="3">
+            ${deleteButton}
+        </span>
     `;
 
     gradesBody.appendChild(row);
@@ -1648,6 +1718,15 @@ function updateAddSubjectStriping() {
     const rowCount = gradesBody.querySelectorAll('.grade-row').length;
     addSubjectContainer.classList.toggle('add-subject-even', rowCount % 2 !== 0);
     addSubjectContainer.classList.toggle('add-subject-odd', rowCount % 2 === 0);
+}
+
+function updateGradesAria() {
+    if (!gradesTable || !gradesBody) return;
+    const rows = Array.from(gradesBody.querySelectorAll('.grade-row'));
+    gradesTable.setAttribute('aria-rowcount', String(rows.length + 1));
+    rows.forEach((row, index) => {
+        row.setAttribute('aria-rowindex', String(index + 2));
+    });
 }
 
 function updatePrognosis(targetDegree) {

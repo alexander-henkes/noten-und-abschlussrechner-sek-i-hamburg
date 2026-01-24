@@ -68,7 +68,7 @@ noten-und-abschlussrechner-sek-i-hamburg
 │   │       └── source-sans-3-variable.woff2
 │   └── images
 │       ├── flags
-│       │   ├── accessibility.svg
+│       │   ├── flag_a11y.svg
 │       │   ├── flag_de.svg
 │       │   └── flag_en.svg
 │       ├── background

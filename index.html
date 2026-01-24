@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <a class="skip-link" href="#main-content" data-i18n="skip.main">Zum Inhalt springen</a>
     <div class="beta-banner" aria-hidden="true"><span class="beta-banner-text">BETA</span></div>
     <div class="language-switcher" aria-label="Sprache wählen" data-i18n-aria-label="language.label">
         <button class="lang-btn is-active" type="button" data-lang="de" aria-pressed="true" title="Deutsch" data-i18n-title="language.de">
@@ -17,7 +18,7 @@
             <img src="assets/images/flags/flag_en.svg" alt="English" class="lang-flag" data-i18n-alt="language.en">
         </button>
         <button class="a11y-btn" type="button" aria-pressed="false" aria-label="Barrierefreier Modus" data-i18n-aria-label="a11y.label" title="Schwarz-Weiss-Ansicht umschalten" data-i18n-title="a11y.title">
-            <img src="assets/images/flags/accessibility.svg" alt="Barrierefrei" class="a11y-icon" data-i18n-alt="a11y.label">
+            <img src="assets/images/flags/flag_a11y.svg" alt="Barrierefrei" class="a11y-icon" data-i18n-alt="a11y.label">
         </button>
     </div>
     <div class="language-hint" aria-hidden="true">
@@ -41,12 +42,13 @@
             <p class="subtitle" data-i18n="app.subtitle">Sekundarstufe I (Hamburg) – ESA | MSA | Gymnasiale Oberstufe</p>
         </header>
 
-        <main>
+        <main id="main-content">
 
             <section class="card" id="calculator-card">
             <h2 data-i18n-html="section.calculator">Durchschnittsrechner <sup>1</sup></h2>
 
                 <div class="target-selection">
+                    <label class="sr-only" for="target-degree" data-i18n="select.label">Angestrebter Abschluss</label>
                     <div class="select-marquee">
                         <select id="target-degree" required>
                         <option value="" selected disabled data-i18n="select.placeholder">Bitte wählen Sie einen angestrebten Abschluss aus ...</option>
@@ -60,21 +62,23 @@
                     </div>
                 </div>
 
-                <div class="grades-table">
-                    <div class="grades-header">
-                        <span class="col-subject" data-i18n="table.subjects">Fächer</span>
-                        <span class="col-grade" data-i18n-html="table.grades">Noten <sup>2</sup></span>
-                        <span class="col-action"></span>
+                <div class="grades-table" role="table" aria-colcount="3">
+                    <div class="grades-header" role="row">
+                        <span class="col-subject" role="columnheader" aria-colindex="1" data-i18n="table.subjects">Fächer</span>
+                        <span class="col-grade" role="columnheader" aria-colindex="2" data-i18n-html="table.grades">Noten <sup>2</sup></span>
+                        <span class="col-action" role="columnheader" aria-colindex="3"></span>
                     </div>
-                    <div id="grades-body">
+                    <div id="grades-body" role="rowgroup">
 
                     </div>
                 </div>
 
                 <div class="add-subject">
+                    <label class="sr-only" for="new-subject-name" data-i18n="addSubject.label">Weiteres Fach</label>
                     <input type="text" id="new-subject-name" placeholder="Weiteres Fach hinzufügen ..." data-i18n-placeholder="addSubject.placeholder">
                     <button id="add-subject-btn" class="btn btn-secondary">+</button>
                 </div>
+
                 <div class="average-display">
                     <span data-i18n="average.label">Notendurchschnitt:</span>
                     <span id="average-grade" class="average-value">-</span>
@@ -123,8 +127,8 @@
                     <table class="print-table">
                         <thead>
                             <tr>
-                                <th data-i18n="print.subject">Fach</th>
-                                <th data-i18n="print.grade">Note</th>
+                                <th scope="col" data-i18n="print.subject">Fach</th>
+                                <th scope="col" data-i18n="print.grade">Note</th>
                             </tr>
                         </thead>
                         <tbody id="print-grades-body"></tbody>
@@ -231,6 +235,9 @@
                 <span class="badge-break"></span>
                 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.de" target="_blank" rel="noopener noreferrer">
                     <img src="assets/images/badges/cc-by-nc-sa.svg" alt="CC BY-NC-SA 4.0" class="cc-license-badge">
+                </a>
+                <a href="https://www.a11yproject.com/" target="_blank" rel="noopener noreferrer" class="a11yproject-badge">
+                    <img src="assets/images/badges/a11yproject.svg" alt="The A11Y Project">
                 </a>
                 <a href="https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg/tree/main/docker" target="_blank" rel="noopener noreferrer">
                     <img src="assets/images/badges/selfhost.svg" alt="Selfhost mit Docker" class="cc-license-badge cc-license-badge--docker">

@@ -880,6 +880,27 @@ body.a11y-mode .info-reference a {
         --ship-y: 0%;
         display: none;
     }
+
+    .language-switcher {
+        gap: 6px;
+        padding: 4px;
+    }
+
+    .lang-btn,
+    .a11y-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .lang-flag {
+        width: 22px;
+        height: 22px;
+    }
+
+    .a11y-icon {
+        width: 16px;
+        height: 16px;
+    }
 }
 
 @keyframes horizonShift {

@@ -12,7 +12,9 @@ lokal im Browser und überträgt keine Daten an externe Server.
 
 ### **[▶ Programm direkt auf <u>GitHub Pages</u> nutzen ◀](https://alexander-henkes.github.io/noten-und-abschlussrechner-sek-i-hamburg/)**
 
-<img src="assets/images/screenshot.png" alt="Screenshot des Tools" width="600">
+<a href="https://alexander-henkes.github.io/noten-und-abschlussrechner-sek-i-hamburg/">
+  <img src="assets/images/screenshot.png" alt="Screenshot des Tools" width="600">
+</a>
 
 [![GitHub](https://img.shields.io/badge/GitHub-alexander--henkes-blue?logo=github)](https://github.com/alexander-henkes)
 [![Website](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Falexander-henkes.github.io%2Fnoten-und-abschlussrechner-sek-i-hamburg%2F)](https://alexander-henkes.github.io/noten-und-abschlussrechner-sek-i-hamburg/)

@@ -100,18 +100,18 @@ noten-und-abschlussrechner-sek-i-hamburg
 │       │   ├── a11yproject.svg
 │       │   ├── cc-by-nc-sa.svg
 │       │   └── selfhost.svg
+│   └── documents
+│       ├── anlagen
+│       │   └── apo-grundstgy-hamburg-anlage-1.pdf
+│       └── paragraphen
+│           ├── apo-grundstgy-hamburg-§2.pdf
+│           ├── apo-grundstgy-hamburg-§29.pdf
+│           ├── apo-grundstgy-hamburg-§29a.pdf
+│           ├── apo-grundstgy-hamburg-§30.pdf
+│           └── apo-grundstgy-hamburg-§31.pdf
 ├── docker
 │   ├── Dockerfile
 │   └── docker-compose.yml
-├── documents
-│   ├── anlagen
-│   │   └── apo-grundstgy-hamburg-anlage-1.pdf
-│   └── paragraphen
-│       ├── apo-grundstgy-hamburg-§2.pdf
-│       ├── apo-grundstgy-hamburg-§29.pdf
-│       ├── apo-grundstgy-hamburg-§29a.pdf
-│       ├── apo-grundstgy-hamburg-§30.pdf
-│       └── apo-grundstgy-hamburg-§31.pdf
 ├── index.html
 ├── script.js
 ├── styles.css

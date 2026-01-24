@@ -12,6 +12,8 @@ lokal im Browser und überträgt keine Daten an externe Server.
 
 ### **[▶ Programm direkt auf <u>GitHub Pages</u> nutzen ◀](https://alexander-henkes.github.io/noten-und-abschlussrechner-sek-i-hamburg/)**
 
+<img src="assets/images/screenshot.png" alt="Screenshot des Tools" width="600">
+
 [![GitHub](https://img.shields.io/badge/GitHub-alexander--henkes-blue?logo=github)](https://github.com/alexander-henkes)
 [![Website](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Falexander-henkes.github.io%2Fnoten-und-abschlussrechner-sek-i-hamburg%2F)](https://alexander-henkes.github.io/noten-und-abschlussrechner-sek-i-hamburg/)
 [![Release](https://img.shields.io/github/v/release/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg?color=success)](https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg/releases/)
@@ -95,18 +97,19 @@ noten-und-abschlussrechner-sek-i-hamburg
 │   │       ├── source-sans-3-variable.ttf
 │   │       └── source-sans-3-variable.woff2
 │   └── images
-│       ├── flags
-│       │   ├── flag_a11y.svg
-│       │   ├── flag_de.svg
-│       │   └── flag_en.svg
 │       ├── background
 │       │   ├── harbour.svg
 │       │   ├── plane.svg
 │       │   └── ship.svg
-│       └── badges
-│           ├── a11yproject.svg
-│           ├── cc-by-nc-sa.svg
-│           └── selfhost.svg
+│       ├── badges
+│       │   ├── a11yproject.svg
+│       │   ├── cc-by-nc-sa.svg
+│       │   └── selfhost.svg
+│       ├── flags
+│       │   ├── flag_a11y.svg
+│       │   ├── flag_de.svg
+│       │   └── flag_en.svg
+│       └── screenshot.png
 ├── docker
 │   ├── Dockerfile
 │   └── docker-compose.yml

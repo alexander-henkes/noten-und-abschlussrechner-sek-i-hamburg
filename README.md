@@ -87,19 +87,19 @@ noten-und-abschlussrechner-sek-i-hamburg
 │   │       ├── OFL.txt
 │   │       ├── source-sans-3-variable.ttf
 │   │       └── source-sans-3-variable.woff2
-│   └── images
-│       ├── flags
-│       │   ├── flag_a11y.svg
-│       │   ├── flag_de.svg
-│       │   └── flag_en.svg
-│       ├── background
-│       │   ├── harbour.svg
-│       │   ├── plane.svg
-│       │   └── ship.svg
-│       ├── badges
-│       │   ├── a11yproject.svg
-│       │   ├── cc-by-nc-sa.svg
-│       │   └── selfhost.svg
+│   ├── images
+│   │   ├── flags
+│   │   │   ├── flag_a11y.svg
+│   │   │   ├── flag_de.svg
+│   │   │   └── flag_en.svg
+│   │   ├── background
+│   │   │   ├── harbour.svg
+│   │   │   ├── plane.svg
+│   │   │   └── ship.svg
+│   │   ├── badges
+│   │   │   ├── a11yproject.svg
+│   │   │   ├── cc-by-nc-sa.svg
+│   │   │   └── selfhost.svg
 │   └── documents
 │       ├── anlagen
 │       │   └── apo-grundstgy-hamburg-anlage-1.pdf

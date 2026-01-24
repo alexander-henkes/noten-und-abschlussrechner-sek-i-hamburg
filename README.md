@@ -96,10 +96,10 @@ noten-und-abschlussrechner-sek-i-hamburg
 │   │   │   ├── harbour.svg
 │   │   │   ├── plane.svg
 │   │   │   └── ship.svg
-│   │   ├── badges
-│   │   │   ├── a11yproject.svg
-│   │   │   ├── cc-by-nc-sa.svg
-│   │   │   └── selfhost.svg
+│   │   └── badges
+│   │       ├── a11yproject.svg
+│   │       ├── cc-by-nc-sa.svg
+│   │       └── selfhost.svg
 │   └── documents
 │       ├── anlagen
 │       │   └── apo-grundstgy-hamburg-anlage-1.pdf

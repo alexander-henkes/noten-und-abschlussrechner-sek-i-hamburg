@@ -515,6 +515,7 @@ function init() {
     });
     window.addEventListener('resize', positionLanguageHint);
     window.addEventListener('resize', updateTargetDegreeMarquee);
+    window.addEventListener('resize', fitAllSubjectNames);
     window.addEventListener('scroll', updateLanguageSwitcherVisibility, { passive: true });
     window.addEventListener('beforeprint', buildPrintSummary);
     window.addEventListener('beforeprint', handleBeforePrint);
@@ -953,9 +954,82 @@ function updateSubjectNames() {
         subject.name = t(subject.nameKey);
         const nameElement = document.querySelector(`#row-${subject.id} .subject-name-text`);
         if (nameElement) {
+            nameElement.dataset.fullText = subject.name;
             nameElement.textContent = subject.name;
         }
     });
+    requestAnimationFrame(fitAllSubjectNames);
+}
+
+function getSubjectFullText(textElement) {
+    return textElement?.dataset.fullText || textElement?.textContent || '';
+}
+
+function getSubjectNameMinFontPx() {
+    const rootSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    return Number.isFinite(rootSize) ? rootSize * 0.75 : 12;
+}
+
+function fitSubjectNameText(container) {
+    if (!container) return;
+    const textElement = container.querySelector('.subject-name-text');
+    if (!textElement) return;
+    const requiredNote = container.querySelector('.required-note');
+
+    const fullText = getSubjectFullText(textElement);
+    textElement.textContent = fullText;
+    textElement.style.fontSize = '';
+    textElement.style.lineHeight = '';
+    if (requiredNote) {
+        requiredNote.style.fontSize = '';
+    }
+
+    const baseSize = parseFloat(getComputedStyle(textElement).fontSize);
+    if (!Number.isFinite(baseSize)) return;
+    const baseNoteSize = requiredNote ? parseFloat(getComputedStyle(requiredNote).fontSize) : null;
+
+    const containerWidth = container.clientWidth;
+    if (containerWidth <= 0) return;
+
+    const noteGap = requiredNote ? 6 : 0;
+    const baseTextWidth = textElement.scrollWidth;
+    const baseNoteWidth = requiredNote ? requiredNote.offsetWidth : 0;
+    const combinedWidth = baseTextWidth + baseNoteWidth + noteGap;
+    if (combinedWidth <= containerWidth) return;
+
+    const minSize = getSubjectNameMinFontPx();
+    const scale = containerWidth / combinedWidth;
+    const targetSize = Math.max(minSize, Math.floor(baseSize * scale * 100) / 100);
+    textElement.style.fontSize = `${targetSize}px`;
+    textElement.style.lineHeight = '1.2';
+    if (requiredNote && Number.isFinite(baseNoteSize)) {
+        const noteSize = Math.max(baseNoteSize * (targetSize / baseSize), 8);
+        requiredNote.style.fontSize = `${Math.floor(noteSize * 100) / 100}px`;
+    }
+
+    const availableTextWidth = containerWidth - (requiredNote ? requiredNote.offsetWidth + noteGap : 0);
+    if (availableTextWidth <= 0 || textElement.scrollWidth <= availableTextWidth) return;
+
+    const suffix = ' ...';
+    let low = 0;
+    let high = fullText.length;
+    let best = '';
+    while (low <= high) {
+        const mid = Math.floor((low + high) / 2);
+        const candidate = `${fullText.slice(0, mid).trimEnd()}${suffix}`;
+        textElement.textContent = candidate;
+        if (textElement.scrollWidth <= availableTextWidth) {
+            best = candidate;
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    textElement.textContent = best || suffix.trim();
+}
+
+function fitAllSubjectNames() {
+    document.querySelectorAll('.grade-row .subject-name').forEach(fitSubjectNameText);
 }
 
 function updateLegendHeading() {
@@ -999,6 +1073,7 @@ function setA11yMode(enabled, options = {}) {
         updateA11yUrl(enabled);
     }
     updateLegendHeading();
+    requestAnimationFrame(fitAllSubjectNames);
 }
 
 function handleBeforePrint() {
@@ -1071,7 +1146,7 @@ function renderSubjectRow(subject) {
 
     row.innerHTML = `
         <span class="${subjectClass}" role="cell" aria-colindex="1">
-            <span class="subject-name-text">${subject.name}</span>${requiredNote}
+            <span class="subject-name-text" data-full-text="${subject.name}">${subject.name}</span>${requiredNote}
         </span>
         <span class="grade-cell grade-cell-grade" role="cell" aria-colindex="2">
             <select class="grade-select" data-id="${subject.id}">
@@ -1085,6 +1160,9 @@ function renderSubjectRow(subject) {
     `;
 
     gradesBody.appendChild(row);
+    requestAnimationFrame(() => {
+        fitSubjectNameText(row.querySelector('.subject-name'));
+    });
 
     const gradeSelect = row.querySelector('.grade-select');
     gradeSelect.addEventListener('change', (e) => {

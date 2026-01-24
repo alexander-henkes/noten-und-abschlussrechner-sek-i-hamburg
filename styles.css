@@ -1226,6 +1226,10 @@ main > .card:nth-of-type(6) { --card-stagger: 5; }
 .grade-row .subject-name {
     font-weight: 500;
     color: var(--text-dark);
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    min-width: 0;
 }
 
 .grade-row .subject-name.main-subject {
@@ -1233,11 +1237,18 @@ main > .card:nth-of-type(6) { --card-stagger: 5; }
     font-weight: 600;
 }
 
+.grade-row .subject-name-text {
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .grade-row .required-note {
     color: var(--danger-color);
     font-size: 0.7em;
-    vertical-align: super;
-    margin-left: 4px;
+    align-self: flex-start;
+    transform: translateY(-0.25em);
+    margin-left: 0;
 }
 
 .grade-row select,

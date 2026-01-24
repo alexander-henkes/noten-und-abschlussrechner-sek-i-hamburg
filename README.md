@@ -62,6 +62,27 @@ noten-und-abschlussrechner-sek-i-hamburg
 │       └── docker-publish.yml
 ├── assets
 │   ├── fonts
+│   │   ├── atkinson-hyperlegible
+│   │   │   ├── OFL.txt
+│   │   │   ├── atkinson-hyperlegible-bold-italic.ttf
+│   │   │   ├── atkinson-hyperlegible-bold-italic.woff2
+│   │   │   ├── atkinson-hyperlegible-bold.ttf
+│   │   │   ├── atkinson-hyperlegible-bold.woff2
+│   │   │   ├── atkinson-hyperlegible-italic.ttf
+│   │   │   ├── atkinson-hyperlegible-italic.woff2
+│   │   │   ├── atkinson-hyperlegible-regular.ttf
+│   │   │   ├── atkinson-hyperlegible-regular.woff2
+│   │   │   └── atkinson-hyperlegible.css
+│   │   ├── open-dyslexic
+│   │   │   ├── OFL.txt
+│   │   │   ├── open-dyslexic-bold-italic.otf
+│   │   │   ├── open-dyslexic-bold-italic.woff2
+│   │   │   ├── open-dyslexic-bold.otf
+│   │   │   ├── open-dyslexic-bold.woff2
+│   │   │   ├── open-dyslexic-italic.otf
+│   │   │   ├── open-dyslexic-italic.woff2
+│   │   │   ├── open-dyslexic-regular.otf
+│   │   │   └── open-dyslexic-regular.woff2
 │   │   └── source-sans-3
 │   │       ├── OFL.txt
 │   │       ├── source-sans-3-variable.ttf
@@ -76,6 +97,7 @@ noten-und-abschlussrechner-sek-i-hamburg
 │       │   ├── plane.svg
 │       │   └── ship.svg
 │       ├── badges
+│       │   ├── a11yproject.svg
 │       │   ├── cc-by-nc-sa.svg
 │       │   └── selfhost.svg
 ├── docker

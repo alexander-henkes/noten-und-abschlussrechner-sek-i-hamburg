@@ -61,6 +61,15 @@ noten-und-abschlussrechner-sek-i-hamburg
 │       ├── broken-link-checker.yml
 │       └── docker-publish.yml
 ├── assets
+│   ├── documents
+│   │   ├── anlagen
+│   │   │   └── apo-grundstgy-hamburg-anlage-1.pdf
+│   │   └── paragraphen
+│   │       ├── apo-grundstgy-hamburg-§2.pdf
+│   │       ├── apo-grundstgy-hamburg-§29.pdf
+│   │       ├── apo-grundstgy-hamburg-§29a.pdf
+│   │       ├── apo-grundstgy-hamburg-§30.pdf
+│   │       └── apo-grundstgy-hamburg-§31.pdf
 │   ├── fonts
 │   │   ├── atkinson-hyperlegible
 │   │   │   ├── OFL.txt
@@ -87,28 +96,19 @@ noten-und-abschlussrechner-sek-i-hamburg
 │   │       ├── OFL.txt
 │   │       ├── source-sans-3-variable.ttf
 │   │       └── source-sans-3-variable.woff2
-│   ├── images
-│   │   ├── flags
-│   │   │   ├── flag_a11y.svg
-│   │   │   ├── flag_de.svg
-│   │   │   └── flag_en.svg
-│   │   ├── background
-│   │   │   ├── harbour.svg
-│   │   │   ├── plane.svg
-│   │   │   └── ship.svg
-│   │   └── badges
-│   │       ├── a11yproject.svg
-│   │       ├── cc-by-nc-sa.svg
-│   │       └── selfhost.svg
-│   └── documents
-│       ├── anlagen
-│       │   └── apo-grundstgy-hamburg-anlage-1.pdf
-│       └── paragraphen
-│           ├── apo-grundstgy-hamburg-§2.pdf
-│           ├── apo-grundstgy-hamburg-§29.pdf
-│           ├── apo-grundstgy-hamburg-§29a.pdf
-│           ├── apo-grundstgy-hamburg-§30.pdf
-│           └── apo-grundstgy-hamburg-§31.pdf
+│   └── images
+│       ├── flags
+│       │   ├── flag_a11y.svg
+│       │   ├── flag_de.svg
+│       │   └── flag_en.svg
+│       ├── background
+│       │   ├── harbour.svg
+│       │   ├── plane.svg
+│       │   └── ship.svg
+│       └── badges
+│           ├── a11yproject.svg
+│           ├── cc-by-nc-sa.svg
+│           └── selfhost.svg
 ├── docker
 │   ├── Dockerfile
 │   └── docker-compose.yml

@@ -498,7 +498,7 @@ const importBtn = document.getElementById('import-btn');
 const importFileInput = document.getElementById('import-file');
 const importExportContainer = document.querySelector('.import-export');
 const printBtn = document.getElementById('print-btn');
-const printGradesBody = document.getElementById('print-grades-body');
+const printGradesList = document.getElementById('print-grades-list');
 const printPrognosis = document.getElementById('print-prognosis');
 const printAverage = document.getElementById('print-average');
 const printAction = document.querySelector('.print-action');
@@ -763,18 +763,19 @@ function buildPrognosisHtml(result, otherDegrees) {
 }
 
 function buildPrintSummary() {
-    if (!printGradesBody || !printPrognosis) return;
-    printGradesBody.innerHTML = '';
+    if (!printGradesList || !printPrognosis) return;
+    printGradesList.innerHTML = '';
     subjects.forEach(subject => {
-        const row = document.createElement('tr');
-        const subjectCell = document.createElement('td');
-        const gradeCell = document.createElement('td');
-        subjectCell.textContent = subject.name;
-        const gradeLabel = GRADE_OPTIONS.find(o => o.value === subject.grade)?.label || '–';
-        gradeCell.textContent = gradeLabel;
-        row.appendChild(subjectCell);
-        row.appendChild(gradeCell);
-        printGradesBody.appendChild(row);
+        const item = document.createElement('li');
+        const subjectLabel = document.createElement('span');
+        const gradeLabel = document.createElement('span');
+        subjectLabel.className = 'print-grade-subject';
+        gradeLabel.className = 'print-grade-value';
+        subjectLabel.textContent = `${subject.name}:`;
+        gradeLabel.textContent = GRADE_OPTIONS.find(o => o.value === subject.grade)?.label || '–';
+        item.appendChild(subjectLabel);
+        item.appendChild(gradeLabel);
+        printGradesList.appendChild(item);
     });
 
     const targetDegree = targetDegreeSelect.value;

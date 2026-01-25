@@ -1357,23 +1357,43 @@ main > .card:nth-of-type(6) { --card-stagger: 5; }
     margin-top: 16px;
 }
 
-.print-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 8px;
+.print-grade-list {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
 }
 
-.print-table th,
-.print-table td {
-    text-align: left;
-    padding: 8px 10px;
-    border-bottom: 1px solid #d8d8d8;
+.print-grade-list li {
+    display: flex;
+    gap: 12px;
+    padding: 2px 0;
+}
+
+.print-grade-subject,
+.print-grade-value {
+    display: inline-block;
+}
+
+.print-grade-value {
+    margin-left: auto;
+    text-align: right;
 }
 
 .print-average {
     margin-top: 10px;
     font-weight: 600;
 }
+
+.print-average span:last-child {
+    float: right;
+}
+
+.print-separator {
+    border: 0;
+    border-top: 1px solid #000;
+    margin: 8px 0 0;
+}
+
 
 .print-prognosis-card {
     margin-top: 0;
@@ -1974,6 +1994,51 @@ body.a11y-mode #calculator-card {
         animation: none;
     }
 
+    * {
+        color: #000 !important;
+        text-shadow: none !important;
+    }
+
+    body,
+    header,
+    footer,
+    .print-summary,
+    .print-summary * {
+        text-align: left;
+        font-size: 1rem;
+    }
+
+    .print-summary h2,
+    .print-summary h3 {
+        font-weight: 600;
+    }
+
+    header {
+        display: none;
+    }
+
+    header h1 {
+        text-shadow: none;
+        font-size: 1.2rem;
+        font-weight: 600;
+        line-height: 1.25;
+    }
+
+    header .subtitle {
+        color: #000 !important;
+        opacity: 1 !important;
+    }
+
+    .print-summary h2,
+    .print-summary h3 {
+        text-align: left;
+        font-size: 1.2rem;
+    }
+
+    header .title-break {
+        display: inline;
+    }
+
     .language-switcher,
     .language-hint,
     .beta-banner,
@@ -2000,13 +2065,26 @@ body.a11y-mode #calculator-card {
     }
 
     .card {
-        box-shadow: none;
-        border: 1px solid #d8d8d8;
+        box-shadow: none !important;
+        border: none !important;
+        background: none !important;
     }
 
     .print-summary {
         display: block;
         color: #000;
+    }
+
+    .print-meta {
+        column-gap: 4px;
+        row-gap: 0;
+        font-size: 0.8rem;
+        margin-top: 2.4rem !important;
+    }
+
+    .print-meta,
+    .print-meta * {
+        font-size: 0.8rem !important;
     }
 
     footer {
@@ -2017,6 +2095,35 @@ body.a11y-mode #calculator-card {
         color: #000;
     }
 
+    footer p {
+        display: none;
+    }
+
+    footer {
+        padding: 0 0 20px;
+    }
+
+    footer p {
+        white-space: nowrap;
+        margin: 0 0 16px;
+    }
+
+    footer .footer-break {
+        display: none;
+    }
+
+    .print-page-break {
+        break-after: auto;
+        page-break-after: auto;
+    }
+
+    .print-block {
+        margin-top: 8px;
+    }
+
+    .print-average {
+        margin-top: 6px;
+    }
 }
 
 
@@ -2101,12 +2208,23 @@ body.a11y-mode #calculator-card {
 
     .container {
         max-width: 100%;
+        padding: 20px;
     }
 
     .card {
-        box-shadow: none;
-        border: 1px solid #ddd;
+        box-shadow: none !important;
+        border: none !important;
+        background: none !important;
+        padding: 0 !important;
         page-break-inside: avoid;
+    }
+
+    header {
+        padding: 0;
+    }
+
+    .print-summary {
+        padding: 0;
     }
 
     .add-subject,
@@ -2114,18 +2232,40 @@ body.a11y-mode #calculator-card {
         display: none;
     }
 
-    header {
-        color: var(--primary-color);
+    .print-prognosis-card {
+        border: none !important;
+        box-shadow: none !important;
+        background: none !important;
+        padding: 0;
+        margin-top: 32px;
+        border-radius: 0;
     }
 
-    footer {
-        color: var(--text-muted);
+    .print-prognosis-card.card {
+        border: none !important;
+        box-shadow: none !important;
+        background: none !important;
     }
 
     #print-prognosis ul {
         margin: 8px 0 0;
         padding-left: 22px;
         list-style-position: outside;
+    }
+
+    #print-prognosis h3 {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        margin: 0 0 6px;
+    }
+
+    #print-prognosis .prognosis-icon {
+        display: inline-block;
+    }
+
+    .print-prognosis-card h2 {
+        display: none;
     }
 
     #print-prognosis li {

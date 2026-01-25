@@ -124,19 +124,12 @@
             <section class="print-summary" id="print-summary" aria-hidden="true">
                 <div class="print-block print-page-break">
                     <h3 data-i18n="print.grades">Notenübersicht</h3>
-                    <table class="print-table">
-                        <thead>
-                            <tr>
-                                <th scope="col" data-i18n="print.subject">Fach</th>
-                                <th scope="col" data-i18n="print.grade">Note</th>
-                            </tr>
-                        </thead>
-                        <tbody id="print-grades-body"></tbody>
-                    </table>
+                    <ul class="print-grade-list" id="print-grades-list"></ul>
                     <div class="print-average">
                         <span data-i18n="average.label">Notendurchschnitt:</span>
                         <span id="print-average">–</span>
                     </div>
+                    <hr class="print-separator">
                 </div>
                 <div class="card print-prognosis-card">
                     <h2 data-i18n="section.prognosis">Abschlussprognose</h2>
@@ -144,13 +137,14 @@
                 </div>
                 <div class="print-block print-meta">
                     <span class="print-line-break"></span>
-                    <span data-i18n="print.repoLabel">GitHub-Repository:</span>
-                    <a href="https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg" target="_blank" rel="noopener noreferrer">
+                    <span data-i18n="footer.basedOnPrefix">Basierend auf</span> <a href="https://web.archive.org/web/20260120104037/https://www.hamburg.de/resource/blob/136184/0f0b5da5811d0277de8491e6de3acb42/apo-grundstgy-data.pdf" target="_blank" rel="noopener noreferrer" data-i18n="footer.basedOnLink">§§ 29–31 APO-GrundStGy</a>
+                    <span data-i18n="footer.basedOnSuffix">(Stand: April 2024)</span>
+                    <span class="print-line-break"></span>
+                    <span data-i18n="print.repoLabel">GitHub-Repository:</span> <a href="https://github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg" target="_blank" rel="noopener noreferrer">
                         github.com/alexander-henkes/noten-und-abschlussrechner-sek-i-hamburg
                     </a>
                     <span class="print-line-break"></span>
-                    <span data-i18n="print.licenseLabel">Lizenz:</span>
-                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">
+                    <span data-i18n="print.licenseLabel">Lizenz:</span> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">
                         CC BY-NC-SA 4.0
                     </a>
                 </div>

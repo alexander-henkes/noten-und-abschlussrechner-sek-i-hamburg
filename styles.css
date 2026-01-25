@@ -218,10 +218,6 @@ body.a11y-mode h6 {
     color: #000000;
 }
 
-body.a11y-mode .card h2 {
-    color: #000000;
-}
-
 body.a11y-mode .card {
     background: #ffffff;
     border: 2px solid #000000;
@@ -235,10 +231,6 @@ body.a11y-mode .card:not(#calculator-card) {
 
 body.a11y-mode .card::before {
     display: none;
-}
-
-body.a11y-mode .card h2 {
-    color: #000000;
 }
 
 body.a11y-mode .beta-banner,

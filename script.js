@@ -28,6 +28,7 @@ const GRADE_ORDER = ['E1', 'E2', 'E3', 'E4', 'G2', 'G3', 'G4', 'G5', 'G6'];
 
 const TRANSLATIONS = {
     de: {
+        'app.title': 'Noten- & Abschlussrechner für die Sekundarstufe I (Hamburg)',
         'app.titleHtml': '<span class="title-break">Noten- & </span>Abschlussrechner',
         'app.subtitle': 'Sekundarstufe I (Hamburg) – ESA | MSA | Gymnasiale Oberstufe',
         'section.calculator': 'Durchschnittsrechner <sup>1</sup>',
@@ -140,6 +141,7 @@ const TRANSLATIONS = {
         'notice.cta': 'Verstanden!'
     },
     en: {
+        'app.title': 'Grade & Qualification Calculator for Secondary Level I (Hamburg)',
         'app.titleHtml': '<span class="title-break">Grade & </span>Qualification Calculator',
         'app.subtitle': 'Secondary Level I (Hamburg) – ESA | MSA | Upper Secondary',
         'section.calculator': 'Average Grade Calculator <sup>1</sup>',
@@ -389,6 +391,64 @@ function getNumericGradeForDegree(targetDegree, grade) {
 function formatSubjectGrade(subject) {
     const label = GRADE_OPTIONS.find(o => o.value === subject.grade)?.label || subject.grade;
     return `${subject.name} (${label})`;
+}
+
+function buildCompensationPools(allWithGrades, toNumeric) {
+    return {
+        1: allWithGrades.filter(s => toNumeric(s.grade) === 1),
+        2: allWithGrades.filter(s => toNumeric(s.grade) === 2),
+        3: allWithGrades.filter(s => toNumeric(s.grade) === 3)
+    };
+}
+
+function buildDeficits(allWithGrades, toNumeric) {
+    return allWithGrades
+        .map(s => ({ subject: s, numeric: toNumeric(s.grade) }))
+        .filter(d => d.numeric > 4);
+}
+
+function resolveCompensation(deficits, availablePools, rulesByNumeric, priorityOrder) {
+    let allCompensated = true;
+    const compensationDetails = [];
+
+    const useOne = (grade) => availablePools[grade].shift();
+    const useSingleFrom = (grades) => {
+        for (const grade of grades) {
+            if (availablePools[grade].length >= 1) return [useOne(grade)];
+        }
+        return [];
+    };
+    const useDoubleFrom = (grades) => {
+        const used = [];
+        for (const grade of grades) {
+            while (availablePools[grade].length && used.length < 2) {
+                used.push(useOne(grade));
+            }
+            if (used.length === 2) return used;
+        }
+        return used.length === 2 ? used : [];
+    };
+
+    priorityOrder.forEach((numeric) => {
+        const rules = rulesByNumeric[numeric];
+        const group = deficits.filter(d => d.numeric === numeric);
+        group.forEach(deficit => {
+            let used = rules ? useSingleFrom(rules.single) : [];
+            if (rules && used.length === 0) {
+                used = useDoubleFrom(rules.double);
+            }
+
+            const compensated = used.length > 0;
+            if (!compensated) allCompensated = false;
+            compensationDetails.push({
+                subject: deficit.subject.name,
+                compensated,
+                by: used.map(formatSubjectGrade)
+            });
+        });
+    });
+
+    return { allCompensated, compensationDetails };
 }
 
 
@@ -719,7 +779,7 @@ function buildPrintSummary() {
 
     const targetDegree = targetDegreeSelect.value;
     if (printAverage) {
-        printAverage.textContent = targetDegree ? calculateAverageGrade(targetDegree) : '–';
+        printAverage.textContent = targetDegree ? calculateAverageGrade() : '–';
     }
     if (!targetDegree) {
         printPrognosis.innerHTML = `<p>${t('result.incomplete')}</p>`;
@@ -1221,7 +1281,7 @@ function countGradesInList(gradesList, targetGrades) {
 }
 
 
-function calculateAverageGrade(targetDegree) {
+function calculateAverageGrade() {
     const gradesWithValues = subjects
         .filter(s => s.grade !== null)
         .map(s => s.grade);
@@ -1403,74 +1463,18 @@ function checkDegreeRequirements(targetDegree) {
     }
 
     if (targetDegree === 'msa') {
-        const numericGrades = allGrades.map(toMsaNumericGrade).filter(v => v !== null);
-        const deficits = allWithGrades
-            .map(s => ({ subject: s, numeric: toMsaNumericGrade(s.grade) }))
-            .filter(d => d.numeric > 4);
-
-        const availablePools = {
-            1: allWithGrades.filter(s => toMsaNumericGrade(s.grade) === 1),
-            2: allWithGrades.filter(s => toMsaNumericGrade(s.grade) === 2),
-            3: allWithGrades.filter(s => toMsaNumericGrade(s.grade) === 3)
+        const deficits = buildDeficits(allWithGrades, toMsaNumericGrade);
+        const availablePools = buildCompensationPools(allWithGrades, toMsaNumericGrade);
+        const rulesByNumeric = {
+            5: { single: [2, 1], double: [3, 2, 1] },
+            6: { single: [1], double: [2, 1] }
         };
-
-        let allCompensated = true;
-
-        const sixes = deficits.filter(d => d.numeric === 6);
-        const fives = deficits.filter(d => d.numeric === 5);
-
-        const compensationDetails = [];
-
-        const useOne = (grade) => availablePools[grade].shift();
-        const useTwo = (grade) => [availablePools[grade].shift(), availablePools[grade].shift()].filter(Boolean);
-
-        const useSingleFrom = (grades) => {
-            for (const grade of grades) {
-                if (availablePools[grade].length >= 1) return [useOne(grade)];
-            }
-            return [];
-        };
-
-        const useDoubleFrom = (grades) => {
-            const used = [];
-            for (const grade of grades) {
-                while (availablePools[grade].length && used.length < 2) {
-                    used.push(useOne(grade));
-                }
-                if (used.length === 2) return used;
-            }
-            return used.length === 2 ? used : [];
-        };
-
-        sixes.forEach(deficit => {
-            const used = useSingleFrom([1]);
-            if (used.length === 0) {
-                used.push(...useDoubleFrom([2, 1]));
-            }
-
-            const compensated = used.length > 0;
-            if (!compensated) allCompensated = false;
-            compensationDetails.push({
-                subject: deficit.subject.name,
-                compensated,
-                by: used.map(formatSubjectGrade)
-            });
-        });
-
-        fives.forEach(deficit => {
-            const used = useSingleFrom([2, 1]);
-            if (used.length === 0) {
-                used.push(...useDoubleFrom([3, 2, 1]));
-            }
-
-            const compensated = used.length > 0;
-            if (!compensated) allCompensated = false;
-            compensationDetails.push({
-                subject: deficit.subject.name,
-                compensated,
-                by: used.map(formatSubjectGrade)
-            });
-        });
+        const { allCompensated, compensationDetails } = resolveCompensation(
+            deficits,
+            availablePools,
+            rulesByNumeric,
+            [6, 5]
+        );
 
         if (deficits.length === 0) {
             result.achieved = true;
@@ -1492,74 +1496,18 @@ function checkDegreeRequirements(targetDegree) {
     }
 
     if (targetDegree === 'sek2') {
-        const numericGrades = allGrades.map(toSek2NumericGrade).filter(v => v !== null);
-        const deficits = allWithGrades
-            .map(s => ({ subject: s, numeric: toSek2NumericGrade(s.grade) }))
-            .filter(d => d.numeric > 4);
-
-        const availablePools = {
-            1: allWithGrades.filter(s => toSek2NumericGrade(s.grade) === 1),
-            2: allWithGrades.filter(s => toSek2NumericGrade(s.grade) === 2),
-            3: allWithGrades.filter(s => toSek2NumericGrade(s.grade) === 3)
+        const deficits = buildDeficits(allWithGrades, toSek2NumericGrade);
+        const availablePools = buildCompensationPools(allWithGrades, toSek2NumericGrade);
+        const rulesByNumeric = {
+            5: { single: [2, 1], double: [3, 2, 1] },
+            6: { single: [1], double: [2, 1] }
         };
-
-        let allCompensated = true;
-
-        const fives = deficits.filter(d => d.numeric === 5);
-        const sixes = deficits.filter(d => d.numeric === 6);
-
-        const compensationDetails = [];
-
-        const useOne = (grade) => availablePools[grade].shift();
-        const useTwo = (grade) => [availablePools[grade].shift(), availablePools[grade].shift()].filter(Boolean);
-
-        const useSingleFrom = (grades) => {
-            for (const grade of grades) {
-                if (availablePools[grade].length >= 1) return [useOne(grade)];
-            }
-            return [];
-        };
-
-        const useDoubleFrom = (grades) => {
-            const used = [];
-            for (const grade of grades) {
-                while (availablePools[grade].length && used.length < 2) {
-                    used.push(useOne(grade));
-                }
-                if (used.length === 2) return used;
-            }
-            return used.length === 2 ? used : [];
-        };
-
-        fives.forEach(deficit => {
-            const used = useSingleFrom([2, 1]);
-            if (used.length === 0) {
-                used.push(...useDoubleFrom([3, 2, 1]));
-            }
-
-            const compensated = used.length > 0;
-            if (!compensated) allCompensated = false;
-            compensationDetails.push({
-                subject: deficit.subject.name,
-                compensated,
-                by: used.map(formatSubjectGrade)
-            });
-        });
-
-        sixes.forEach(deficit => {
-            const used = useSingleFrom([1]);
-            if (used.length === 0) {
-                used.push(...useDoubleFrom([2, 1]));
-            }
-
-            const compensated = used.length > 0;
-            if (!compensated) allCompensated = false;
-            compensationDetails.push({
-                subject: deficit.subject.name,
-                compensated,
-                by: used.map(formatSubjectGrade)
-            });
-        });
+        const { allCompensated, compensationDetails } = resolveCompensation(
+            deficits,
+            availablePools,
+            rulesByNumeric,
+            [5, 6]
+        );
 
         if (deficits.length === 0) {
             result.achieved = true;
@@ -1579,97 +1527,6 @@ function checkDegreeRequirements(targetDegree) {
         result.compensatableProblems = compensationDetails;
         return result;
     }
-
-
-
-    const availableGrades = {};
-    passed.forEach(s => {
-        if (config.compensatingGrades.includes(s.grade)) {
-            availableGrades[s.grade] = (availableGrades[s.grade] || 0) + 1;
-            result.availableCompensations.push(`${s.name} (${GRADE_OPTIONS.find(o => o.value === s.grade)?.label || s.grade})`);
-        }
-    });
-
-
-    const remainingGrades = { ...availableGrades };
-
-
-    const deficits = [];
-    needsCompensation.forEach(s => {
-        const label = config.compensationLabelKeys[s.grade] ? t(config.compensationLabelKeys[s.grade]) : '';
-        deficits.push({
-            subject: s.name,
-            needs: label,
-            grade: s.grade
-        });
-        result.compensatableProblems.push({
-            subject: s.name,
-            needs: label,
-            grade: s.grade
-        });
-    });
-
-
-    deficits.sort((a, b) => GRADE_ORDER.indexOf(b.grade) - GRADE_ORDER.indexOf(a.grade));
-
-
-    let allCompensated = true;
-
-    for (const deficit of deficits) {
-        const rules = config.compensationRules[deficit.grade];
-        if (!rules) {
-            allCompensated = false;
-            continue;
-        }
-
-        let compensated = false;
-
-
-        for (const singleGrade of rules.single) {
-            if (remainingGrades[singleGrade] >= 1) {
-                remainingGrades[singleGrade]--;
-                compensated = true;
-                break;
-            }
-        }
-
-
-        if (!compensated && rules.double) {
-            for (const doubleGrade of rules.double) {
-                if (remainingGrades[doubleGrade] >= 2) {
-                    remainingGrades[doubleGrade] -= 2;
-                    compensated = true;
-                    break;
-                }
-            }
-        }
-
-        if (!compensated) {
-            allCompensated = false;
-        }
-    }
-
-
-    if (deficits.length > 0) {
-        result.problems = needsCompensation.map(s => s.name);
-
-        if (allCompensated) {
-            result.achieved = true;
-            result.status = 'warning';
-            result.message = t('result.achieved', { degree: t(config.fullNameKey) });
-        } else {
-            result.achieved = false;
-            result.status = 'danger';
-            result.message = t('result.notAchieved', { degree: t(config.fullNameKey) });
-        }
-    } else {
-        result.achieved = true;
-        result.status = 'success';
-        result.message = t('result.achieved', { degree: t(config.fullNameKey) });
-        result.directSuccessNote = t(config.directSuccessNoteKey);
-    }
-
-    return result;
 }
 
 
@@ -1754,7 +1611,7 @@ function updateAll() {
 
 
     if (targetDegree) {
-        averageGradeDisplay.textContent = calculateAverageGrade(targetDegree);
+        averageGradeDisplay.textContent = calculateAverageGrade();
     } else {
         averageGradeDisplay.textContent = '–';
     }

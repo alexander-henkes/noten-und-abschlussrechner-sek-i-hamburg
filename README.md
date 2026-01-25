@@ -163,6 +163,15 @@ noten-und-abschlussrechner-sek-i-hamburg
 - **Kein Upload**: Es findet keine Datenübertragung zu einem Server statt.
 - **Lokale Ausführung**: Der JavaScript-Code läuft ausschließlich auf Ihrem Endgerät.
 
+## Barrierefreiheit
+
+Die Anwendung orientiert sich an den Empfehlungen von [The A11Y Project](https://www.a11yproject.com) und setzt u. a. folgende Punkte um:
+
+- **Tastaturbedienung**: Navigation und Bedienung sind ohne Maus möglich.
+- **Semantik & ARIA**: Strukturierte Überschriften, Labels und ARIA-Attribute für bessere Screenreader-Unterstützung.
+- **Kontraste**: Hohe Lesbarkeit durch ausreichende Kontrastwerte.
+- **Barrierefrei-Modus**: Reduzierte Darstellung mit vereinfachten Effekten und klaren Formen.
+
 ## Lizenz
 
 Dieses Projekt ist unter der **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 (CC BY-NC-SA 4.0)** lizenziert.
